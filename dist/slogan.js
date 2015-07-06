@@ -1,0 +1,16 @@
+'use strict';
+
+var CFonts = require('cfonts');
+
+exports.yell = function () {
+    new CFonts({
+        text: 'Cage',
+        font: '3d',
+        'colors': ['green', 'yellow'],
+        'background': 'Black',
+        'letterSpacing': 1,
+        'space': true,
+        'maxLength': '10'
+    });
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNsb2dhbi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksTUFBTSxHQUFHLE9BQU8sQ0FBRSxRQUFRLENBQUUsQ0FBQTs7QUFFaEMsT0FBTyxDQUFDLElBQUksR0FBRyxZQUFNO0FBQ2pCLFFBQUksTUFBTSxDQUFFO0FBQ1IsWUFBSSxFQUFFLE1BQU07QUFDWixZQUFJLEVBQUUsSUFBSTtBQUNWLGdCQUFRLEVBQUUsQ0FBRSxPQUFPLEVBQUUsUUFBUSxDQUFFO0FBQy9CLG9CQUFZLEVBQUUsT0FBTztBQUNyQix1QkFBZSxFQUFFLENBQUM7QUFDbEIsZUFBTyxFQUFFLElBQUk7QUFDYixtQkFBVyxFQUFFLElBQUk7S0FDcEIsQ0FBRSxDQUFBO0NBQ04sQ0FBQSIsImZpbGUiOiJzbG9nYW4uanMiLCJzb3VyY2VzQ29udGVudCI6WyJsZXQgQ0ZvbnRzID0gcmVxdWlyZSggJ2Nmb250cycgKVxuXG5leHBvcnRzLnllbGwgPSAoKSA9PiB7XG4gICAgbmV3IENGb250cygge1xuICAgICAgICB0ZXh0OiAnQ2FnZScsXG4gICAgICAgIGZvbnQ6ICczZCcsXG4gICAgICAgICdjb2xvcnMnOiBbICdncmVlbicsICd5ZWxsb3cnIF0sXG4gICAgICAgICdiYWNrZ3JvdW5kJzogJ0JsYWNrJyxcbiAgICAgICAgJ2xldHRlclNwYWNpbmcnOiAxLFxuICAgICAgICAnc3BhY2UnOiB0cnVlLFxuICAgICAgICAnbWF4TGVuZ3RoJzogJzEwJ1xuICAgIH0gKVxufVxuIl19

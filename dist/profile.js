@@ -1,0 +1,7 @@
+'use strict';
+
+var Configstore = require('configstore'),
+    Key = require('./key');
+
+global.Profile = new Configstore(Key.profile);
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInByb2ZpbGUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxJQUFJLFdBQVcsR0FBRyxPQUFPLENBQUUsYUFBYSxDQUFFO0lBQ3RDLEdBQUcsR0FBVyxPQUFPLENBQUUsT0FBTyxDQUFFLENBQUE7O0FBRXBDLE1BQU0sQ0FBQyxPQUFPLEdBQUcsSUFBSSxXQUFXLENBQUUsR0FBRyxDQUFDLE9BQU8sQ0FBRSxDQUFBIiwiZmlsZSI6InByb2ZpbGUuanMiLCJzb3VyY2VzQ29udGVudCI6WyJsZXQgQ29uZmlnc3RvcmUgPSByZXF1aXJlKCAnY29uZmlnc3RvcmUnICksXG4gICAgS2V5ICAgICAgICAgPSByZXF1aXJlKCAnLi9rZXknIClcblxuZ2xvYmFsLlByb2ZpbGUgPSBuZXcgQ29uZmlnc3RvcmUoIEtleS5wcm9maWxlIClcbiJdfQ==

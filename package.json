@@ -1,0 +1,41 @@
+{
+  "name": "Cage",
+  "version": "1.0.0",
+  "description": "whornbill environment utility.",
+  "bin": "bin/index.js",
+  "repository": {
+    "type": "git",
+    "url": "http://gitlab.fexot.meiliworks.com/zhidongsun/cage.git"
+  },
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "dependencies": {
+    "bluebird": "~2.9.30",
+    "cfonts": "~0.0.13",
+    "chalk": "~1.1.0",
+    "commander": "~2.8.1",
+    "configstore": "~1.2.0",
+    "getmac": "~1.0.7",
+    "got": "~3.3.0",
+    "inquirer": "~0.8.5",
+    "keymirror": "~0.1.1",
+    "moment": "~2.10.3",
+    "npm": "~2.12.1",
+    "object-assign": "~3.0.0",
+    "open": "~0.0.5",
+    "rimraf": "~2.4.1",
+    "string-length": "~1.0.0",
+    "svn-interface": "~0.4.5",
+    "tail": "~0.4.0",
+    "update-notifier": "~0.5.0",
+    "yosay": "~1.0.4"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.0",
+    "gulp-babel": "~5.1.0",
+    "gulp-watch": "~4.2.4",
+    "mocha": "~2.2.5",
+    "should": "~7.0.1"
+  }
+}
