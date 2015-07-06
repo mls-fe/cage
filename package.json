@@ -1,11 +1,16 @@
 {
-  "name": "Cage",
+  "name": "cage",
   "version": "1.0.0",
   "description": "whornbill environment utility.",
   "bin": "bin/index.js",
+  "keywords": [
+    "cli",
+    "build",
+    "whornbill"
+  ],
   "repository": {
     "type": "git",
-    "url": "http://gitlab.fexot.meiliworks.com/zhidongsun/cage.git"
+    "url": "https://github.com/mls-fe/cage.git"
   },
   "engines": {
     "node": ">=0.12.0"

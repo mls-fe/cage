@@ -1,5 +1,7 @@
 # Cage
 
+[![NPM version](https://img.shields.io/npm/v/cage.svg?style=flat)](https://www.npmjs.com/package/cage)
+
 ## 介绍
 
 whornbill 环境配置。
@@ -48,7 +50,3 @@ whornbill 环境配置。
 
 #### 显示工作空间列表
     cage ls
-
-## TODO
-- test
-- publish
