@@ -4,13 +4,14 @@ let Inquirer  = require( 'inquirer' ),
 module.exports = {
     list() {
         let list = WorkSpace.list()
+
         if ( list.length ) {
             Inquirer
                 .prompt( [ {
                     type: 'list',
                     name: 'workspace',
                     message: '工作空间列表',
-                    choices: WorkSpace.list(),
+                    choices: list,
                     default: WorkSpace.current()
                 } ], answer => {
                     WorkSpace.setCurrentWorkSpace( answer.workspace )

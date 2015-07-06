@@ -118,7 +118,7 @@ class Config {
             res = await Util.updateMac( mac )
 
         if ( res ) {
-            let port = Util.getPort() + 1,
+            let port = Util.getPort( this.getPath() ) + 1,
                 ip   = Profile.get( IP ),
                 url  = `http://${ip}:${port}/`
 
@@ -145,7 +145,7 @@ class Config {
 
         await this.generatePort()
 
-        port = this.getPort() || Util.getPort()
+        port = this.getPort() || Util.getPort( this.getPath() )
 
         await Util.updateJSONFile( this.getPath() + Const.FILE_VHOST, hosts )
         await Util.updateProxy( port, hostParam.join( '&' ) )

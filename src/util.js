@@ -55,11 +55,8 @@ module.exports = Util = {
         } )
     },
 
-    getPort() {
-        let basePath = Profile.get( Key.current_path ),
-            etcPath  = basePath + Const.FILE_ETC
-
-        return require( etcPath ).onPort
+    getPort( basePath ) {
+        return require( basePath + Const.FILE_ETC ).onPort
     },
 
     async getIP() {
