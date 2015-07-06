@@ -52,16 +52,16 @@ Commander
 Commander
     .command( 'run' )
     .alias( 'r' )
-    .action( () => {
-        let result = findValidWorkspace( process.cwd() )
+    .action( async () => {
+        let result = await findValidWorkspace( process.cwd() )
         new WorkSpace( result.dir ).start()
     } )
 
 Commander
     .command( 'stop [isAll]' )
     .alias( 's' )
-    .action( ( isAll = false ) => {
-        let result = findValidWorkspace( process.cwd() )
+    .action( async ( isAll = false ) => {
+        let result = await findValidWorkspace( process.cwd() )
         new WorkSpace( result.dir ).stop( isAll )
     } )
 

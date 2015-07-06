@@ -19,7 +19,7 @@ class WorkSpace {
             Util.checkFileExist( path + APPS ),
             Util.checkFileExist( path + NEST )
         ] ).then( results => {
-            return results.reduce( ( prev, cur ) => prev && cur )
+            return Promise.resolve( results.reduce( ( prev, cur ) => prev && cur ) )
         } )
     }
 
