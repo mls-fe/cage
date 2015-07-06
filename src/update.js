@@ -3,14 +3,15 @@ let UpdateNotifier      = require( 'update-notifier' ),
     Yosay               = require( 'yosay' ),
     StringLength        = require( 'string-length' ),
     pkg                 = require( '../package.json' ),
-    updateCheckInterval = 1000 * 60,
+    updateCheckInterval = 1000 * 60 * 60 * 24 * 7,
     notifier            = UpdateNotifier( {
         pkg, updateCheckInterval
     } )
 
 // from https://github.com/yeoman/yo/blob/master/lib/cli.js#L35
 exports.check = () => {
-    let update = notifier.update
+    let update  = notifier.update,
+        message = []
 
     if ( update ) {
         let newVersion = Chalk.green.bold( update.latest ),
