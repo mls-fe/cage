@@ -30,7 +30,7 @@ class WorkSpace {
 
     // 获取全部工作空间
     static list() {
-        return Profile.get( Key.workspace_list )
+        return Profile.get( Key.workspace_list ) || []
     }
 
     // 设置 path 为当前工作空间

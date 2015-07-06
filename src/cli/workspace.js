@@ -3,16 +3,21 @@ let Inquirer  = require( 'inquirer' ),
 
 module.exports = {
     list() {
-        Inquirer
-            .prompt( [ {
-                type: 'list',
-                name: 'workspace',
-                message: '工作空间列表',
-                choices: WorkSpace.list(),
-                default: WorkSpace.current()
-            } ], answer => {
-                WorkSpace.setCurrentWorkSpace( answer.workspace )
-                log( '切换工作空间成功！' )
-            } )
+        let list = WorkSpace.list()
+        if ( list.length ) {
+            Inquirer
+                .prompt( [ {
+                    type: 'list',
+                    name: 'workspace',
+                    message: '工作空间列表',
+                    choices: WorkSpace.list(),
+                    default: WorkSpace.current()
+                } ], answer => {
+                    WorkSpace.setCurrentWorkSpace( answer.workspace )
+                    log( '切换工作空间成功！' )
+                } )
+        } else {
+            log( '没有检测到工作空间，请使用 cage config 设置', 'warn' )
+        }
     }
 }

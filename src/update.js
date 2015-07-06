@@ -3,7 +3,7 @@ let UpdateNotifier      = require( 'update-notifier' ),
     Yosay               = require( 'yosay' ),
     StringLength        = require( 'string-length' ),
     pkg                 = require( '../package.json' ),
-    updateCheckInterval = 1000 * 60 * 60 * 24 * 7,
+    updateCheckInterval = 1000 * 60,
     notifier            = UpdateNotifier( {
         pkg, updateCheckInterval
     } )
