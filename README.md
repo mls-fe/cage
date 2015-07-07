@@ -7,6 +7,7 @@
 whornbill 环境配置。
 
 ## 安装
+    sudo npm install -g cage
 
 ## 使用
 *`<>`表示参数可以省略*
@@ -35,15 +36,24 @@ whornbill 环境配置。
 #### 停止所有服务器
     cage stop all
     cage s all
+    cage sa
 
 ### 查看日志
 
 #### 查看 server 日志
     cage log
+    cage l
     cage log s
+    cage l s
     
 #### 查看 jserver 日志(不常用)
     cage log js
+    cage l js
+    
+#### 打开日志所在文件夹
+*只打开 server 日志所在的文件夹*
+
+    cage lo
     
 ### 工作空间
 *工作空间(workspace): 每一个 whornbill 环境都可以看做一个工作空间，你可以在不同空间中切换。*

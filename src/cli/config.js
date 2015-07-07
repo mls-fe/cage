@@ -147,7 +147,7 @@ class ConfigCLI {
         Slogan.yell()
         log( '====================' )
         log( 'whornbill 环境配置完毕' )
-        log( 'Cage 的详细使用请查看文档：\nhttp://gitlab.fexot.meiliworks.com/zhidongsun/cage/tree/master' )
+        log( 'Cage 的详细使用请查看文档：\nhttps://github.com/mls-fe/cage' )
         Open( `http://${domain}.fedevot.meilishuo.com` )
     }
 }
