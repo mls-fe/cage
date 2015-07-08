@@ -8,6 +8,9 @@ whornbill 环境配置。
 
 ## 安装
     sudo npm install -g cage
+    
+## 更新
+    sudo npm update -g cage
 
 ## 使用
 *`<>`表示参数可以省略*

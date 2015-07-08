@@ -71,7 +71,7 @@ Commander
     .action( async () => {
         let result = await findValidWorkspace( process.cwd() )
         new WorkSpace( result.dir ).stop( 'all' )
-    })
+    } )
 
 Commander
     .command( 'log [type]' )
@@ -92,8 +92,10 @@ Commander
 Commander
     .command( 'lo' )
     .action( () => {
-        Open( '/tmp/log/nest-server/', 'finder' )
-    })
+        let date = Moment().format( 'YYYY/MM/' )
+
+        Open( `/tmp/log/nest-server/${date}`, 'finder' )
+    } )
 
 Commander
     .command( 'ls' )
