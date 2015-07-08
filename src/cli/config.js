@@ -9,7 +9,13 @@ let Inquirer      = require( 'inquirer' ),
     Const         = require( '../const' ),
     Indicator     = Util.indicator,
 
-    defaultPhases = [ 'configPort', 'configDomain', 'configAddress', 'configProxy', 'finish' ]
+    defaultPhases = [
+        'configPort',
+        'configDomain',
+        'configAddress',
+        'configProxy',
+        'finish'
+    ]
 
 const RANDOM = Key.random,
       NORMAL = Key.normal,
@@ -142,7 +148,7 @@ class ConfigCLI {
 
     async finish() {
         let workspace = new WorkSpace( this.config.getPath() ),
-            domain    = this.config.getSavedDomains()[ 0 ]
+            domain    = this.config.getSavedDomains()[ 0 ].key
 
         workspace.active()
         await workspace.start()
@@ -151,7 +157,9 @@ class ConfigCLI {
         log( '====================' )
         log( 'whornbill 环境配置完毕' )
         log( 'Cage 的详细使用请查看文档：\nhttps://github.com/mls-fe/cage' )
-        Open( `http://${domain}.fedevot.meilishuo.com` )
+        setTimeout( () => {
+            Open( `http://${domain}.fedevot.meilishuo.com` )
+        }, 1000 )
     }
 }
 

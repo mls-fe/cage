@@ -8,7 +8,9 @@ let Inquirer  = require( 'inquirer' ),
     Key       = require( '../key' )
 
 const USERNAME = Key.username,
-      PASSWORD = Key.password
+      PASSWORD = Key.password,
+      YES      = '是',
+      NO       = '否'
 
 let notNull = content => !!content || '内容不能为空！'
 
@@ -69,14 +71,15 @@ class SetupCLI {
 
     cleanup() {
         Inquirer.prompt( [ {
-            type: 'confirm',
+            type: 'list',
             name: 'override',
             message: '文件夹已存在，是否覆盖',
-            default: false
+            choices: [ YES, NO ],
+            default: NO
         } ], answer => {
             let path = this._path
 
-            if ( answer.override ) {
+            if ( answer.override === YES ) {
                 Rimraf( path, async err => {
                     if ( !err ) {
                         this._setup = new Setup()

@@ -27,31 +27,43 @@ class Setup {
     }
 
     async checkoutSource( username, password ) {
-        let phaseObj = phases.shift(),
-            name, path
+        await Promise.all( phases.map( async phaseObj => {
+            let name, path
 
-        if ( phaseObj ) {
             name = phaseObj.name
             path = this._path + phaseObj.dir
             log( `\n初始化 ${name} 文件夹` )
             Util.indicator.start()
 
             await FS.mkdirAsync( path )
-            await SVN.coAsync( phaseObj.url, path, {
-                username, password
-            } )
 
-            Util.indicator.stop()
-            log( `${name} 设置成功!`, 'success' )
-            return this.checkoutSource( username, password )
-        } else {
-            return this.installDependencies()
-        }
+            return new Promise( ( resolve, reject ) => {
+                let childProcess = SVN.co( phaseObj.url, path, {
+                    username, password
+                }, err => {
+                    if ( !err ) {
+                        Util.indicator.stop()
+                        log( `${name} 设置成功!`, 'success' )
+                        resolve()
+                    }
+                } )
+
+                childProcess.stderr.on( 'data', data => {
+                    if ( !this.hasError ) {
+                        reject()
+                        childProcess.kill()
+                        this.hasError = true
+                        this.error( data.toString() )
+                    }
+                } )
+            } )
+        } ) )
+
+        return this.installDependencies()
     }
 
     async installDependencies() {
-        let deptPath = this._path + DIR_NODEMODULES
-        await FS.mkdirAsync( deptPath )
+        let deptPath = this._path + DIR_NEST
 
         return new Promise( resolve => {
             NPM.load( {}, function( err, npm ) {
@@ -61,6 +73,12 @@ class Setup {
                 } )
             } )
         } )
+    }
+
+    error( msg ) {
+        Util.indicator.stop()
+        log( '下载源码失败，以下为 svn 打印的错误消息', 'error' )
+        log( msg )
     }
 }
 

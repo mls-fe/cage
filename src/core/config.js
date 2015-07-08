@@ -68,7 +68,9 @@ class Config {
 
         if ( !(key in domainsObj ) ) {
             domainsObj[ key ] = value
-            domains.push( key )
+            domains.push( {
+                key, value
+            } )
             Profile.set( DOMAINS, domainsObj )
         }
     }
