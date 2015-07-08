@@ -1,5 +1,17 @@
 # Cage ChangeLog
 
+## 2015-07-08, Version 1.2.4
+
+### Fix
+
+- `cage config` 执行完毕后，会打开错误的 url
+- npm 安装的包位置错误
+- svn 用户名或密码输入错误给出提示
+
+### Improvement
+
+- 改进 `setup` 命令覆盖已存在文件夹的选择方式
+
 ## 2015-07-08, Version 1.2.0
 
 ### Notable changes
