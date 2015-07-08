@@ -12,6 +12,7 @@ require( './profile' )
 
 let Commander          = require( 'commander' ),
     Moment             = require( 'moment' ),
+    Open               = require( 'open' ),
     Tail               = require( 'tail' ).Tail,
     ConfigCLI          = require( './cli/config' ),
     SetupCLI           = require( './cli/setup' ),
@@ -66,7 +67,15 @@ Commander
     } )
 
 Commander
+    .command( 'sa' )
+    .action( async () => {
+        let result = await findValidWorkspace( process.cwd() )
+        new WorkSpace( result.dir ).stop( 'all' )
+    } )
+
+Commander
     .command( 'log [type]' )
+    .alias( 'l' )
     .action( ( type = 's' ) => {
         if ( type in logValues ) {
             let date = Moment().format( 'YYYY/MM/DD' ),
@@ -78,6 +87,14 @@ Commander
         } else {
             log( 'log 只接受 s/js 两个参数', 'error' )
         }
+    } )
+
+Commander
+    .command( 'lo' )
+    .action( () => {
+        let date = Moment().format( 'YYYY/MM/' )
+
+        Open( `/tmp/log/nest-server/${date}`, 'finder' )
     } )
 
 Commander

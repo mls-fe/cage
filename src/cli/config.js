@@ -13,6 +13,8 @@ let Inquirer      = require( 'inquirer' ),
 
 const RANDOM = Key.random,
       NORMAL = Key.normal,
+      YES    = '是',
+      NO     = '否',
       N      = 'n'
 
 class ConfigCLI {
@@ -61,12 +63,13 @@ class ConfigCLI {
         if ( domainsSize ) {
             Inquirer
                 .prompt( [ {
-                    type: 'confirm',
+                    type: 'list',
                     name: 'override',
                     message: '是否重新设置域名?',
-                    default: false
+                    choices: [ YES, NO ],
+                    default: NO
                 } ], answer => {
-                    if ( answer.override ) {
+                    if ( answer.override == YES ) {
                         c.clearDomains()
                         return this.configDomain( next )
                     }
@@ -147,7 +150,7 @@ class ConfigCLI {
         Slogan.yell()
         log( '====================' )
         log( 'whornbill 环境配置完毕' )
-        log( 'Cage 的详细使用请查看文档：\nhttp://gitlab.fexot.meiliworks.com/zhidongsun/cage/tree/master' )
+        log( 'Cage 的详细使用请查看文档：\nhttps://github.com/mls-fe/cage' )
         Open( `http://${domain}.fedevot.meilishuo.com` )
     }
 }

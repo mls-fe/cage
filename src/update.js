@@ -16,10 +16,10 @@ exports.check = () => {
     if ( update ) {
         let newVersion = Chalk.green.bold( update.latest ),
             curVersion = Chalk.gray( ' (current: ' + update.current + ')' ),
-            command    = Chalk.magenta( 'sudo npm install -g ' + pkg.name )
+            command    = Chalk.magenta( 'sudo npm update -g ' + pkg.name )
 
         message.push( `Cage 可以更新了: ${newVersion}${curVersion}` )
-        message.push( `运行 ${command} to update.` )
+        message.push( `运行 ${command} 更新。` )
         console.log( Yosay( message.join( ' ' ), { maxLength: StringLength( message[ 0 ] ) } ) )
     }
 }
