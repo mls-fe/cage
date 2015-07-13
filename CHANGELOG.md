@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2015-07-13, Version 1.2.5
+
+### Fix
+
+- 修复 `setup`。
+
 ## 2015-07-08, Version 1.2.4
 
 ### Fix

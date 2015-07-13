@@ -6,7 +6,7 @@ let Promise = require( 'bluebird' ),
 
 const DIR_APPS        = '/apps',
       DIR_NEST        = '/nest',
-      DIR_TMP         = '/tmp',
+      DIR_TMP         = `${DIR_NEST}/tmp`,
       DIR_NODEMODULES = DIR_NEST + '/node_modules',
       DEPENDENCIES    = [ 'less@1.3.3', 'uglify-js@1.2.6' ]
 
@@ -37,7 +37,7 @@ class Setup {
 
             await FS.mkdirAsync( path )
 
-            return new Promise( ( resolve, reject ) => {
+            new Promise( ( resolve, reject ) => {
                 let childProcess = SVN.co( phaseObj.url, path, {
                     username, password
                 }, err => {
@@ -58,6 +58,8 @@ class Setup {
                 } )
             } )
         } ) )
+
+        await FS.mkdirAsync( this._path + DIR_TMP )
 
         return this.installDependencies()
     }
