@@ -27,17 +27,17 @@ class Setup {
     }
 
     async checkoutSource( username, password ) {
-        await Promise.all( phases.map( async phaseObj => {
+        return await Promise.all( phases.map( async phaseObj => {
             let name, path
 
             name = phaseObj.name
             path = this._path + phaseObj.dir
             log( `\n初始化 ${name} 文件夹` )
-            Util.indicator.start()
-
             await FS.mkdirAsync( path )
 
-            new Promise( ( resolve, reject ) => {
+            return new Promise( ( resolve, reject ) => {
+                Util.indicator.start()
+
                 let childProcess = SVN.co( phaseObj.url, path, {
                     username, password
                 }, err => {
@@ -57,11 +57,11 @@ class Setup {
                     }
                 } )
             } )
-        } ) )
-
-        await FS.mkdirAsync( this._path + DIR_TMP )
-
-        return this.installDependencies()
+        } ) ).then( async () => {
+            log( '创建 tmp 文件夹' )
+            await FS.mkdirAsync( this._path + DIR_TMP )
+            return this.installDependencies()
+        } )
     }
 
     async installDependencies() {
@@ -71,6 +71,7 @@ class Setup {
             NPM.load( {}, function( err, npm ) {
                 npm.commands.install( deptPath, DEPENDENCIES, () => {
                     log( '\n依赖库安装成功!', 'success' )
+                    Util.indicator.stop()
                     resolve()
                 } )
             } )
