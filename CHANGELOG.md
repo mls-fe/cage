@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2015-07-30, Version 1.2.6
+
+### Fix
+
+- 增加异常处理
+
 ## 2015-07-13, Version 1.2.5
 
 ### Fix

@@ -140,7 +140,15 @@ class ConfigCLI {
 
     async configProxy( next ) {
         Indicator.start( '更新代理服务器' )
-        await this.config.updateProxy()
+
+        try {
+            await this.config.updateProxy()
+        } catch( e ) {
+            log( '服务器挂了,喊钱云!', 'error' )
+            Indicator.stop()
+            return
+        }
+
         Indicator.stop()
         log( '更新代理服务器成功', 'success' )
         next()
