@@ -1,6 +1,6 @@
 # Cage ChangeLog
 
-## 2015-08-14, Version 1.3.0
+## 2015-08-14, Version 1.3.1
 
 ### Improvement
 
