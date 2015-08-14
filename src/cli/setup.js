@@ -15,15 +15,28 @@ const USERNAME = Key.username,
 let notNull = content => !!content || '内容不能为空！'
 
 class SetupCLI {
-    constructor() {
+    constructor( dir, url ) {
+        let tmp
+
+        if ( dir || url ) {
+            if ( dir.indexOf( 'http' ) !== -1 ) {
+                tmp = url
+                url = dir
+                dir = tmp
+            }
+        }
+
+        this._dir = dir
+        this._url = url
+
         this.init()
     }
 
     init() {
         Inquirer.prompt( [ {
-            name: 'dir',
+            name:    'dir',
             message: '设置目录',
-            default: 'master'
+            default: this._dir || 'master'
         } ], async answer => {
             let path    = Path.resolve( answer.dir ),
                 isExist = false
@@ -50,29 +63,29 @@ class SetupCLI {
 
     checkout() {
         Inquirer.prompt( [ {
-            name: USERNAME,
-            message: 'SVN 用户名',
-            default: Profile.get( USERNAME ) || '',
+            name:     USERNAME,
+            message:  'SVN 用户名',
+            default:  Profile.get( USERNAME ) || '',
             validate: notNull
         }, {
-            type: PASSWORD,
-            name: PASSWORD,
-            message: 'SVN 密码',
+            type:     PASSWORD,
+            name:     PASSWORD,
+            message:  'SVN 密码',
             validate: notNull
         } ], async answer => {
             let username = answer[ USERNAME ],
                 password = answer[ PASSWORD ]
 
             Profile.set( USERNAME, username )
-            await this._setup.checkoutSource( username, password )
+            await this._setup.checkoutSource( username, password, this._url )
             new ConfigCLI( this._path )
         } )
     }
 
     cleanup() {
         Inquirer.prompt( [ {
-            type: 'list',
-            name: 'override',
+            type:    'list',
+            name:    'override',
             message: '文件夹已存在，是否覆盖',
             choices: [ YES, NO ],
             default: NO

@@ -1,5 +1,16 @@
 # Cage ChangeLog
 
+## 2015-08-14, Version 1.3.0
+
+### Improvement
+
+- `setup` 命令可以自定义 svn 地址，用于除主站以外的环境部署。
+
+### Fix
+
+- 更新依赖 `string-width`，解决汉字显示问题
+- 解决 `setup` 参数问题
+
 ## 2015-07-30, Version 1.2.6
 
 ### Fix

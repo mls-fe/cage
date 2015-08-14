@@ -12,12 +12,12 @@ const DIR_APPS        = '/apps',
 
 let phases = [ {
     name: 'Nest',
-    url: 'http://svn.meilishuo.com/repos/meilishuo/fex/hornbill_nest/trunk/',
-    dir: DIR_NEST
+    url:  'http://svn.meilishuo.com/repos/meilishuo/fex/hornbill_nest/trunk/',
+    dir:  DIR_NEST
 }, {
     name: 'Apps',
-    url: 'http://svn.meilishuo.com/repos/meilishuo/fex/user/trunk/',
-    dir: DIR_APPS
+    url:  'http://svn.meilishuo.com/repos/meilishuo/fex/user/trunk/',
+    dir:  DIR_APPS
 } ]
 
 class Setup {
@@ -26,9 +26,13 @@ class Setup {
         return FS.mkdirAsync( path )
     }
 
-    async checkoutSource( username, password ) {
+    async checkoutSource( username, password, appSvnUrl ) {
         return await Promise.all( phases.map( async phaseObj => {
             let name, path
+
+            if ( appSvnUrl && phaseObj.name == 'Apps' ) {
+                phaseObj.url = appSvnUrl
+            }
 
             name = phaseObj.name
             path = this._path + phaseObj.dir
@@ -66,6 +70,8 @@ class Setup {
 
     async installDependencies() {
         let deptPath = this._path + DIR_NEST
+
+        log( '安装 less 与 uglify-js' )
 
         return new Promise( resolve => {
             NPM.load( {}, function( err, npm ) {

@@ -42,8 +42,8 @@ Commander
     .version( pkg.version, '-v, --version' )
 
 Commander
-    .command( 'setup' )
-    .action( ()  => new SetupCLI )
+    .command( 'setup [dir] [url]' )
+    .action( ( dir, url )  => new SetupCLI( dir || '', url || '' ) )
 
 Commander
     .command( 'config [dir]' )

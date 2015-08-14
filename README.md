@@ -18,7 +18,7 @@ whornbill 环境配置。
 *如果一个文件夹下拥有 `apps` 与 `nest` 两个文件夹，Cage 就认为它是 whornbill 环境。*
 
 ### 创建环境
-    cage setup <文件夹名>
+    cage setup <文件夹名> <svn url>
     
 ### 配置环境
     cage config <文件夹名>
