@@ -1,7 +1,7 @@
 let UpdateNotifier      = require( 'update-notifier' ),
     Chalk               = require( 'chalk' ),
     Yosay               = require( 'yosay' ),
-    StringLength        = require( 'string-length' ),
+    StringWidth        = require( 'string-width' ),
     pkg                 = require( '../package.json' ),
     updateCheckInterval = 1000 * 60 * 60 * 24 * 7,
     notifier            = UpdateNotifier( {
@@ -20,6 +20,6 @@ exports.check = () => {
 
         message.push( `Cage 可以更新了: ${newVersion}${curVersion}` )
         message.push( `运行 ${command} 更新。` )
-        console.log( Yosay( message.join( ' ' ), { maxLength: StringLength( message[ 0 ] ) } ) )
+        console.log( Yosay( message.join( ' ' ), { maxLength: StringWidth( message[ 0 ] ) } ) )
     }
 }

@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2015-08-17, Version 1.3.2
+
+### Fix
+
+- 忘了修改 `update.js` 里对 `string-length` 的引用了。
+
 ## 2015-08-14, Version 1.3.1
 
 ### Improvement
