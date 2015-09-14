@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2015-09-14, Version 1.3.3
+
+### Fix
+
+- 修改服务器 IP 地址。
+
 ## 2015-08-17, Version 1.3.2
 
 ### Fix
