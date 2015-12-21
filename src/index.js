@@ -7,6 +7,7 @@
  *  stop(s)
  */
 
+require( 'babel-polyfill' )
 require( './log' )
 require( './profile' )
 

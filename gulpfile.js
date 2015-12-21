@@ -1,6 +1,5 @@
-var fs      = require( 'fs' ),
-    gulp    = require( 'gulp' ),
-    to5     = require( 'gulp-babel' ),
+var gulp    = require( 'gulp' ),
+    babel   = require( 'gulp-babel' ),
 
     paths   = {
         src: [ 'src/*.js', 'src/*/*.js' ],
@@ -12,16 +11,18 @@ var fs      = require( 'fs' ),
 
     options = {
         sourceMaps: 'inline',
-        stage: 0,
-        // 兼容 node.js
-        // io.js 已经默认支持以下特性
-        //blacklist: [ 'es6.classes', 'es6.constants', 'es6.templateLiterals', 'es6.spec.symbols' ],
-        optional: [ 'bluebirdCoroutines' ]
+        presets:    [ 'stage-0', 'es2015' ],
+        plugins:    [
+            [ 'transform-async-to-module-method', {
+                "module": 'bluebird',
+                "method": 'coroutine'
+            } ]
+        ]
     }
 
 gulp.task( 'scripts', function() {
     gulp.src( paths.src )
-        .pipe( to5( options ) )
+        .pipe( babel( options ) )
         .pipe( gulp.dest( paths.build ) )
 } )
 
@@ -31,7 +32,7 @@ gulp.task( 'watch', function() {
 
 gulp.task( 'dist', function() {
     gulp.src( paths.src )
-        .pipe( to5( options ) )
+        .pipe( babel( options ) )
         .pipe( gulp.dest( paths.dist ) )
 } )
 

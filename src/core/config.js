@@ -3,10 +3,9 @@ let Key     = require( '../key' ),
     Const   = require( '../const' ),
     Profile = global.Profile
 
-const DOMAINS    = Key.domains,
-      RANDOM     = Key.random,
-      URL_SERVER = Const.URL_SERVER,
-      IP         = Key.ip
+const DOMAINS = Key.domains,
+      RANDOM  = Key.random,
+      IP      = Key.ip
 
 class Config {
     constructor( path ) {
@@ -45,7 +44,7 @@ class Config {
             url = `http://${ip}:${port + 1}/`
 
             await Util.updateJSONFile( path + Const.FILE_SITE, {
-                'JCSTATIC_BASE': url,
+                'JCSTATIC_BASE':   url,
                 'M_JCSTATIC_BASE': url
             } )
 
@@ -89,7 +88,7 @@ class Config {
 
         for ( let key in defaultDomains ) {
             domainsArr.push( {
-                key,
+                       key,
                 value: defaultDomains[ key ]
             } )
         }
@@ -103,7 +102,7 @@ class Config {
     }
 
     clearDomains() {
-        let param        = this.param
+        let param = this.param
 
         Profile.del( DOMAINS )
         param.domainsObj = {}
@@ -125,7 +124,7 @@ class Config {
                 url  = `http://${ip}:${port}/`
 
             await Util.updateJSONFile( this.getPath() + Const.FILE_SITE, {
-                'JCSTATIC_BASE': url,
+                'JCSTATIC_BASE':   url,
                 'M_JCSTATIC_BASE': url
             } )
 

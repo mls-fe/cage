@@ -1,5 +1,15 @@
 # Cage ChangeLog
 
+## 2015-12-21, Version 1.3.5
+
+### Improvement
+
+- 升级 `Babel` 到 6.x
+
+### Fix
+
+- IP 地址更新失败后, 终止流程, 给出提示
+
 ## 2015-09-14, Version 1.3.3
 
 ### Fix

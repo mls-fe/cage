@@ -12,11 +12,8 @@ let Promise      = require( 'bluebird' ),
 
 const URL_SERVER    = Const.URL_SERVER,
       ACTION_UPDATE = 'update?ukey=',
-      ACTION_DOMAIN = 'host',
       MAC           = Key.mac,
       IP            = Key.ip,
-      APPS          = Const.APPS,
-      NEST          = Const.NEST,
       TIMEOUT       = 5000
 
 Indicator = {
@@ -79,7 +76,7 @@ module.exports = Util = {
 
     async updateMac( mac ) {
         let res = await Got.getAsync( URL_SERVER + ACTION_UPDATE + mac, {
-            json: true,
+            json:    true,
             timeout: TIMEOUT
         } )
 
