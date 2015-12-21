@@ -83,6 +83,7 @@ module.exports = Util = {
         if ( res && res[ 0 ].updated ) {
             return true
         }
+        log(URL_SERVER + ACTION_UPDATE + mac)
 
         Indicator.stop()
         log( '更新 IP 地址失败', 'error' )

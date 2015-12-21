@@ -6,14 +6,13 @@ let Inquirer      = require( 'inquirer' ),
     Slogan        = require( '../slogan' ),
     Util          = require( '../util' ),
     Key           = require( '../key' ),
-    Const         = require( '../const' ),
     Indicator     = Util.indicator,
 
     defaultPhases = [
         'configPort',
         'configDomain',
-        'configAddress',
         'configProxy',
+        'configAddress',
         'finish'
     ]
 

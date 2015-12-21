@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2015-12-21, Version 1.3.6
+
+### Improvement
+
+- 调整配置代理与 IP 的顺序
+
 ## 2015-12-21, Version 1.3.5
 
 ### Improvement
