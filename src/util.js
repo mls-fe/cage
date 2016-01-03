@@ -80,13 +80,13 @@ module.exports = Util = {
             timeout: TIMEOUT
         } )
 
-        if ( res && res[ 0 ].updated ) {
-            return true
+        if ( res && ( res = res[ 0 ] ) ) {
+            log( '服务端返回信息: ' + JSON.stringify( res ) )
+            return !!res.updated
         }
-        log(URL_SERVER + ACTION_UPDATE + mac)
+        log( URL_SERVER + ACTION_UPDATE + mac )
 
         Indicator.stop()
-        log( '更新 IP 地址失败', 'error' )
     },
 
     async updateProxy( port, params ) {
