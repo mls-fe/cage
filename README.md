@@ -1,18 +1,15 @@
 # Cage
 
-[![NPM version](https://img.shields.io/npm/v/cage.svg?style=flat)](https://www.npmjs.com/package/cage)
+[![npm version](https://badge.fury.io/js/cage.svg)](https://badge.fury.io/js/cage)
 
 ## 介绍
 
 whornbill 环境配置。
 
-## 安装
+## 安装/更新
     sudo npm install -g cage
-    
-## 更新
-    sudo npm update -g cage
 
-## 使用
+## 命令
 *`<>`表示参数可以省略*
 
 *如果一个文件夹下拥有 `apps` 与 `nest` 两个文件夹，Cage 就认为它是 whornbill 环境。*
