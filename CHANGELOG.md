@@ -1,5 +1,15 @@
 # Cage ChangeLog
 
+## 2016-04-18, Version 1.3.8
+
+### Improvement
+
+- 增加了额外的打印信息
+
+### Fix
+
+- 修改服务器 IP 地址。
+
 ## 2015-12-21, Version 1.3.6
 
 ### Improvement
