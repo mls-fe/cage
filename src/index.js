@@ -13,7 +13,7 @@ require( './profile' )
 
 let Commander          = require( 'commander' ),
     Moment             = require( 'moment' ),
-    Open               = require( 'open' ),
+    Exec               = require( 'child_process' ).exec,
     Tail               = require( 'tail' ).Tail,
     ConfigCLI          = require( './cli/config' ),
     SetupCLI           = require( './cli/setup' ),
@@ -21,9 +21,9 @@ let Commander          = require( 'commander' ),
     WorkSpace          = require( './core/workspace' ),
     Update             = require( './update' ),
     pkg                = require( '../package.json' ),
-    logValues          = { 's': 1, 'js': 1 },
+    logValues          = { 's' : 1, 'js' : 1 },
 
-    findValidWorkspace = async dir => {
+    findValidWorkspace = asyncdir => {
         let isValid = await WorkSpace.isValidWorkSpace( dir )
 
         if ( !isValid ) {
@@ -44,17 +44,17 @@ Commander
 
 Commander
     .command( 'setup [dir] [url]' )
-    .action( ( dir, url )  => new SetupCLI( dir || '', url || '' ) )
+    .action( ( dir, url ) => new SetupCLI( dir || '', url || '' ) )
 
 Commander
     .command( 'config [dir]' )
     .alias( 'c' )
-    .action( ( dir = process.cwd() )  => new ConfigCLI( dir ) )
+    .action( ( dir = process.cwd() ) => new ConfigCLI( dir ) )
 
 Commander
     .command( 'run' )
     .alias( 'r' )
-    .action( async () => {
+    .action( async() => {
         let result = await findValidWorkspace( process.cwd() )
         new WorkSpace( result.dir ).start()
     } )
@@ -62,14 +62,14 @@ Commander
 Commander
     .command( 'stop [isAll]' )
     .alias( 's' )
-    .action( async ( isAll = false ) => {
+    .action( async( isAll = false ) => {
         let result = await findValidWorkspace( process.cwd() )
         new WorkSpace( result.dir ).stop( isAll )
     } )
 
 Commander
     .command( 'sa' )
-    .action( async () => {
+    .action( async() => {
         let result = await findValidWorkspace( process.cwd() )
         new WorkSpace( result.dir ).stop( 'all' )
     } )
@@ -95,7 +95,7 @@ Commander
     .action( () => {
         let date = Moment().format( 'YYYY/MM/' )
 
-        Open( `/tmp/log/nest-server/${date}`, 'finder' )
+        Exec( `open -a finder "/tmp/log/nest-server/${date}"` )
     } )
 
 Commander
