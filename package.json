@@ -22,7 +22,6 @@
     "chalk": "~1.1.0",
     "commander": "~2.8.1",
     "configstore": "~1.2.0",
-    "getmac": "~1.0.7",
     "got": "~3.3.0",
     "inquirer": "~0.8.5",
     "moment": "~2.10.3",

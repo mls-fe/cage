@@ -1,7 +1,7 @@
 let Promise      = require( 'bluebird' ),
     ObjectAssign = require( 'object-assign' ),
     FS_ORIGIN    = require( 'fs' ),
-    GetMac       = Promise.promisifyAll( require( 'getmac' ) ),
+    Exec         = require( 'child_process' ).exec,
     Got          = Promise.promisifyAll( require( 'got' ) ),
     FS           = Promise.promisifyAll( FS_ORIGIN ),
     Key          = require( './key' ),
@@ -69,7 +69,15 @@ module.exports = Util = {
     },
 
     async getMac() {
-        let mac = Cache[ MAC ] || await GetMac.getMacAsync()
+        var getMacAddress = () => {
+            return new Promise( ( resolve, reject ) => {
+                Exec( `ifconfig en0| grep ether| awk '{print $NF}'`, ( err, stdout ) => {
+                    ( err || !stdout ) ? reject() : resolve( stdout )
+                } )
+            } )
+        }
+
+        let mac = Cache[ MAC ] || await getMacAddress()
 
         if ( !mac ) {
             log( '获取 MAC 地址失败', 'error' )
