@@ -25,7 +25,6 @@
     "getmac": "~1.0.7",
     "got": "~3.3.0",
     "inquirer": "~0.8.5",
-    "keymirror": "~0.1.1",
     "moment": "~2.10.3",
     "npm": "~2.12.1",
     "object-assign": "~3.0.0",
