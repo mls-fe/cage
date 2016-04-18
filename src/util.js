@@ -1,14 +1,16 @@
 let Promise      = require( 'bluebird' ),
     ObjectAssign = require( 'object-assign' ),
+    FS_ORIGIN    = require( 'fs' ),
     GetMac       = Promise.promisifyAll( require( 'getmac' ) ),
     Got          = Promise.promisifyAll( require( 'got' ) ),
-    FS           = Promise.promisifyAll( require( 'fs' ) ),
+    FS           = Promise.promisifyAll( FS_ORIGIN ),
     Key          = require( './key' ),
     Const        = require( './const' ),
     count        = 0,
     stdout       = process.stdout,
     Cache        = {},
-    Util, Indicator, timeoutID
+    timeoutID    = 0,
+    Util, Indicator
 
 const URL_SERVER    = Const.URL_SERVER,
       ACTION_UPDATE = 'update?ukey=',
@@ -18,8 +20,9 @@ const URL_SERVER    = Const.URL_SERVER,
 
 Indicator = {
     start( text = 'waiting' ) {
-        count     = 0
-        timeoutID = setInterval( function() {
+        count = 0
+        clearTimeout( timeoutID )
+        timeoutID = setInterval( function () {
             count    = ( count + 1 ) % 5
             let dots = new Array( count ).join( '.' )
 
@@ -37,7 +40,7 @@ Indicator = {
 }
 
 module.exports = Util = {
-    indicator: Indicator,
+    indicator : Indicator,
 
     updateJSONFile( path, content ) {
         content = JSON.stringify( ObjectAssign( {}, require( path ), content ) )
@@ -57,8 +60,9 @@ module.exports = Util = {
     },
 
     async getIP() {
+        log( URL_SERVER + IP, 'debug' )
         let result = await Got.getAsync( URL_SERVER + IP, {
-            timeout: TIMEOUT
+            timeout : TIMEOUT
         } )
 
         return result[ 0 ]
@@ -75,15 +79,15 @@ module.exports = Util = {
     },
 
     async updateMac( mac ) {
+        log( URL_SERVER + ACTION_UPDATE + mac, 'debug' )
         let res = await Got.getAsync( URL_SERVER + ACTION_UPDATE + mac, {
-            json:    true,
-            timeout: TIMEOUT
+            json    : true,
+            timeout : TIMEOUT
         } )
 
         if ( res && res[ 0 ].updated ) {
             return true
         }
-        log(URL_SERVER + ACTION_UPDATE + mac)
 
         Indicator.stop()
         log( '更新 IP 地址失败', 'error' )
@@ -93,9 +97,11 @@ module.exports = Util = {
         let mac = await this.getMac(),
             url = `${URL_SERVER}host?port=${port}&ukey=${mac}&${params}`
 
+        log( url, 'debug' )
+
         return Got
             .getAsync( url, {
-                timeout: TIMEOUT
+                timeout : TIMEOUT
             } )
     }
 }

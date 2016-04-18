@@ -4,20 +4,19 @@ let Promise = require( 'bluebird' ),
     NPM     = require( 'npm' ),
     Util    = require( '../util' )
 
-const DIR_APPS        = '/apps',
-      DIR_NEST        = '/nest',
-      DIR_TMP         = `${DIR_NEST}/tmp`,
-      DIR_NODEMODULES = DIR_NEST + '/node_modules',
-      DEPENDENCIES    = [ 'less@1.3.3', 'uglify-js@1.2.6' ]
+const DIR_APPS     = '/apps',
+      DIR_NEST     = '/nest',
+      DIR_TMP      = `${DIR_NEST}/tmp`,
+      DEPENDENCIES = [ 'less@1.3.3', 'uglify-js@1.2.6' ]
 
 let phases = [ {
-    name: 'Nest',
-    url:  'http://svn.meilishuo.com/repos/meilishuo/fex/hornbill_nest/trunk/',
-    dir:  DIR_NEST
+    name : 'Nest',
+    url  : 'http://svn.meilishuo.com/repos/meilishuo/fex/hornbill_nest/trunk/',
+    dir  : DIR_NEST
 }, {
-    name: 'Apps',
-    url:  'http://svn.meilishuo.com/repos/meilishuo/fex/user/trunk/',
-    dir:  DIR_APPS
+    name : 'Apps',
+    url  : 'http://svn.meilishuo.com/repos/meilishuo/fex/user/trunk/',
+    dir  : DIR_APPS
 } ]
 
 class Setup {
@@ -61,7 +60,7 @@ class Setup {
                     }
                 } )
             } )
-        } ) ).then( async () => {
+        } ) ).then( async() => {
             log( '创建 tmp 文件夹' )
             await FS.mkdirAsync( this._path + DIR_TMP )
             return this.installDependencies()
@@ -74,7 +73,7 @@ class Setup {
         log( '安装 less 与 uglify-js' )
 
         return new Promise( resolve => {
-            NPM.load( {}, function( err, npm ) {
+            NPM.load( {}, function ( err, npm ) {
                 npm.commands.install( deptPath, DEPENDENCIES, () => {
                     log( '\n依赖库安装成功!', 'success' )
                     Util.indicator.stop()

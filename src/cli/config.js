@@ -49,11 +49,11 @@ class ConfigCLI {
     configPort( next ) {
         Inquirer
             .prompt( [ {
-                type:    'list',
-                name:    'portOption',
-                message: '选择端口号',
-                choices: [ NORMAL, RANDOM ],
-                default: RANDOM
+                type    : 'list',
+                name    : 'portOption',
+                message : '选择端口号',
+                choices : [ NORMAL, RANDOM ],
+                default : RANDOM
             } ], answer => {
                 this.config.setPortOption( answer.portOption )
                 next()
@@ -68,11 +68,11 @@ class ConfigCLI {
         if ( domainsSize ) {
             Inquirer
                 .prompt( [ {
-                    type:    'list',
-                    name:    'override',
-                    message: '是否重新设置域名?',
-                    choices: [ YES, NO ],
-                    default: NO
+                    type    : 'list',
+                    name    : 'override',
+                    message : '是否重新设置域名?',
+                    choices : [ YES, NO ],
+                    default : NO
                 } ], answer => {
                     if ( answer.override == YES ) {
                         c.clearDomains()
@@ -89,8 +89,8 @@ class ConfigCLI {
     collectDomain( next ) {
         Inquirer
             .prompt( [ {
-                name:    'domain',
-                message: '设置域名(输入 n 可跳过此步骤)',
+                name    : 'domain',
+                message : '设置域名(输入 n 可跳过此步骤)',
                 validate( domain ) {
                     domain = domain.trim()
                     return domain.split( ' ' ).length == 2 || domain == N
@@ -129,10 +129,10 @@ class ConfigCLI {
                 text  = isOK ? '成功' : '失败'
 
             log( `\n更新 IP 地址${text}`, state )
-            log( `如果曾经更换过硬盘, 那么需要在服务器端重新配置新硬盘的 mac 地址.`, 'success' )
             Indicator.stop()
 
             if ( !isOK ) {
+                log( `如果曾经更换过硬盘, 那么需要在服务器端重新配置新硬盘的 mac 地址.`, 'error' )
                 return
             }
         } else {
@@ -148,7 +148,7 @@ class ConfigCLI {
         try {
             await this.config.updateProxy()
         } catch ( e ) {
-            log( '服务器挂了,喊钱云!', 'error' )
+            log( '\r服务器挂了!', 'error' )
             Indicator.stop()
             return
         }

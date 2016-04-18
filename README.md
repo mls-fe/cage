@@ -7,7 +7,13 @@
 whornbill 环境配置。
 
 ## 安装/更新
-    sudo npm install -g cage
+
+    npm install -g cage
+
+注意:
+
+- 如果安装出现问题, 那么先执行 `npm uninstall -g cage`, 再执行上面的命令
+- 如果提示权限不足, 请在命令前增加 `sudo`
 
 ## 命令
 *`<>`表示参数可以省略*
@@ -16,14 +22,14 @@ whornbill 环境配置。
 
 ### 创建环境
     cage setup <文件夹名> <svn url>
-    
+
 ### 配置环境
     cage config <文件夹名>
     cage c <文件夹名>
-    
+
 ### 运行服务器
 *Cage 会首先检测当前所处文件夹是否为 whornbill 环境，然后会检测默认的工作空间，如果两者检测皆不通过，会提示警告信息。*
-    
+
     cage run
     cage r
 
@@ -45,16 +51,16 @@ whornbill 环境配置。
     cage l
     cage log s
     cage l s
-    
+
 #### 查看 jserver 日志(不常用)
     cage log js
     cage l js
-    
+
 #### 打开日志所在文件夹
 *只打开 server 日志所在的文件夹*
 
     cage lo
-    
+
 ### 工作空间
 *工作空间(workspace): 每一个 whornbill 环境都可以看做一个工作空间，你可以在不同空间中切换。*
 
