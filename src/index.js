@@ -12,18 +12,18 @@ require( './log' )
 require( './profile' )
 
 let Commander          = require( 'commander' ),
-    Moment             = require( 'moment' ),
     Exec               = require( 'child_process' ).exec,
     Tail               = require( 'tail' ).Tail,
     ConfigCLI          = require( './cli/config' ),
     SetupCLI           = require( './cli/setup' ),
     WorkSpaceCLI       = require( './cli/workspace' ),
     WorkSpace          = require( './core/workspace' ),
+    Util               = require( './util' ),
     Update             = require( './update' ),
     pkg                = require( '../package.json' ),
     logValues          = { 's' : 1, 'js' : 1 },
 
-    findValidWorkspace = async dir => {
+    findValidWorkspace = asyncdir => {
         let isValid = await WorkSpace.isValidWorkSpace( dir )
 
         if ( !isValid ) {
@@ -79,7 +79,7 @@ Commander
     .alias( 'l' )
     .action( ( type = 's' ) => {
         if ( type in logValues ) {
-            let date = Moment().format( 'YYYY/MM/DD' ),
+            let date = Util.getFormatDate(),
                 tail = new Tail( `/tmp/log/nest-${type}erver/${date}.log` )
 
             tail

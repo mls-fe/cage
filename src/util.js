@@ -111,5 +111,17 @@ module.exports = Util = {
             .getAsync( url, {
                 timeout : TIMEOUT
             } )
+    },
+
+    getFormatDate() {
+        var now   = new Date,
+            year  = now.getFullYear(),
+            month = String( now.getMonth() ),
+            date  = String( now.getDate() )
+
+        month = month.length > 1 ? month : ( '0' + month )
+        date  = date.length > 1 ? date : ( '0' + date )
+
+        return `${year}/${month}/${date}`
     }
 }
