@@ -23,7 +23,7 @@ let Commander          = require( 'commander' ),
     pkg                = require( '../package.json' ),
     logValues          = { 's' : 1, 'js' : 1 },
 
-    findValidWorkspace = asyncdir => {
+    findValidWorkspace = async dir => {
         let isValid = await WorkSpace.isValidWorkSpace( dir )
 
         if ( !isValid ) {
