@@ -13,7 +13,6 @@ require( './profile' )
 
 let Commander          = require( 'commander' ),
     Exec               = require( 'child_process' ).exec,
-    Tail               = require( 'tail' ).Tail,
     ConfigCLI          = require( './cli/config' ),
     SetupCLI           = require( './cli/setup' ),
     WorkSpaceCLI       = require( './cli/workspace' ),
@@ -78,12 +77,7 @@ Commander
     .alias( 'l' )
     .action( ( type = 's' ) => {
         if ( type in logValues ) {
-            let date = Util.getFormatDate(),
-                tail = new Tail( `/tmp/log/nest-${type}erver/${date}.log` )
-
-            tail
-                .on( 'line', data => log( data ) )
-                .on( 'error', () => tail.unwatch() )
+            Exec( `tail -f /tmp/log/nest-${type}erver/${ Util.getFormatDate()}.log` )
         } else {
             log( 'log 只接受 s/js 两个参数', 'error' )
         }
