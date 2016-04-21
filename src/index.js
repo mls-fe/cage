@@ -19,7 +19,6 @@ let Commander          = require( 'commander' ),
     WorkSpaceCLI       = require( './cli/workspace' ),
     WorkSpace          = require( './core/workspace' ),
     Util               = require( './util' ),
-    Update             = require( './update' ),
     pkg                = require( '../package.json' ),
     logValues          = { 's' : 1, 'js' : 1 },
 
@@ -103,5 +102,3 @@ Commander
     .action( () => WorkSpaceCLI.list() )
 
 Commander.parse( process.argv )
-
-Update.check()
