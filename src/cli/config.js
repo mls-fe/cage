@@ -1,6 +1,5 @@
 let Inquirer      = require( 'inquirer' ),
     Path          = require( 'path' ),
-    Open          = require( 'open' ),
     Config        = require( '../core/config' ),
     WorkSpace     = require( '../core/workspace' ),
     Slogan        = require( '../slogan' ),
@@ -169,9 +168,6 @@ class ConfigCLI {
         log( '====================' )
         log( 'whornbill 环境配置完毕' )
         log( 'Cage 的详细使用请查看文档：\nhttps://github.com/mls-fe/cage' )
-        setTimeout( () => {
-            Open( `http://${domain}.fedevot.meilishuo.com` )
-        }, 1000 )
     }
 }
 
