@@ -1,22 +1,33 @@
-let Promise      = require( 'bluebird' ),
-    ObjectAssign = require( 'object-assign' ),
-    FS_ORIGIN    = require( 'fs' ),
-    Exec         = require( 'child_process' ).exec,
-    Got          = Promise.promisifyAll( require( 'got' ) ),
-    FS           = Promise.promisifyAll( FS_ORIGIN ),
-    Key          = require( './key' ),
-    Const        = require( './const' ),
-    count        = 0,
-    stdout       = process.stdout,
-    Cache        = {},
-    timeoutID    = 0,
-    Util, Indicator
+let Promise   = require( 'bluebird' ),
+    FS_ORIGIN = require( 'fs' ),
+    Exec      = require( 'child_process' ).exec,
+    Got       = Promise.promisifyAll( require( 'got' ) ),
+    FS        = Promise.promisifyAll( FS_ORIGIN ),
+    Key       = require( './key' ),
+    Const     = require( './const' ),
+    count     = 0,
+    stdout    = process.stdout,
+    Cache     = {},
+    timeoutID = 0,
+    Util, Indicator, ObjectAssign
 
 const URL_SERVER    = Const.URL_SERVER,
       ACTION_UPDATE = 'update?ukey=',
       MAC           = Key.mac,
       IP            = Key.ip,
       TIMEOUT       = 5000
+
+ObjectAssign = Object.assign || function ( target, ...mixins ) {
+        target = target || {}
+
+        mixins.forEach( obj => {
+            for ( var key in obj ) {
+                target[ key ] = obj[ key ]
+            }
+        } )
+
+        return target
+    }
 
 Indicator = {
     start( text = 'waiting' ) {
