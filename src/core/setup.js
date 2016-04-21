@@ -1,7 +1,6 @@
 let Promise = require( 'bluebird' ),
     Exec    = require( 'child_process' ).exec,
     FS      = Promise.promisifyAll( require( 'fs' ) ),
-    SVN     = Promise.promisifyAll( require( 'svn-interface' ) ),
     Util    = require( '../util' )
 
 const DIR_APPS     = '/apps',
@@ -41,22 +40,15 @@ class Setup {
             return new Promise( ( resolve, reject ) => {
                 Util.indicator.start()
 
-                let childProcess = SVN.co( phaseObj.url, path, {
-                    username, password
-                }, err => {
+                Exec( `svn checkout ${phaseObj.url} ${path} --username ${username} --password ${password}`, err => {
+                    Util.indicator.stop()
                     if ( !err ) {
-                        Util.indicator.stop()
                         log( `${name} 设置成功!`, 'success' )
                         resolve()
-                    }
-                } )
-
-                childProcess.stderr.on( 'data', data => {
-                    if ( !this.hasError ) {
+                    } else {
+                        log( `${name} 设置失败!`, 'error' )
+                        log( err, 'info' )
                         reject()
-                        childProcess.kill()
-                        this.hasError = true
-                        this.error( data.toString() )
                     }
                 } )
             } )
@@ -75,7 +67,7 @@ class Setup {
         return new Promise( resolve => {
             Exec( `cd ${deptPath} && npm install ${DEPENDENCIES.join( ' ' )}`, ( err, stdout ) => {
                 Util.indicator.stop()
-                
+
                 if ( err ) {
                     log( err, 'error' )
                     log( '\n依赖库安装失败!', 'error' )

@@ -28,8 +28,7 @@
     "configstore": "~1.2.0",
     "got": "~3.3.0",
     "inquirer": "~0.8.5",
-    "rimraf": "~2.4.1",
-    "svn-interface": "~0.4.5"
+    "rimraf": "~2.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
