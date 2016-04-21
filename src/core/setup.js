@@ -1,7 +1,7 @@
 let Promise = require( 'bluebird' ),
+    Exec    = require( 'child_process' ).exec,
     FS      = Promise.promisifyAll( require( 'fs' ) ),
     SVN     = Promise.promisifyAll( require( 'svn-interface' ) ),
-    NPM     = require( 'npm' ),
     Util    = require( '../util' )
 
 const DIR_APPS     = '/apps',
@@ -73,12 +73,17 @@ class Setup {
         log( '安装 less 与 uglify-js' )
 
         return new Promise( resolve => {
-            NPM.load( {}, function ( err, npm ) {
-                npm.commands.install( deptPath, DEPENDENCIES, () => {
+            Exec( `cd ${deptPath} && npm install ${DEPENDENCIES.join( ' ' )}`, ( err, stdout ) => {
+                Util.indicator.stop()
+                
+                if ( err ) {
+                    log( err, 'error' )
+                    log( '\n依赖库安装失败!', 'error' )
+                } else {
+                    log( stdout, 'info' )
                     log( '\n依赖库安装成功!', 'success' )
-                    Util.indicator.stop()
                     resolve()
-                } )
+                }
             } )
         } )
     }
