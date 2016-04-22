@@ -1,12 +1,3 @@
-/**
- * commands:
- *  setup
- *      在当前目录下获取
- *  config(c)
- *  run(r)
- *  stop(s)
- */
-
 require( 'babel-polyfill' )
 require( './log' )
 require( './profile' )
@@ -18,7 +9,6 @@ let Commander          = require( 'commander' ),
     SetupCLI           = require( './cli/setup' ),
     WorkSpaceCLI       = require( './cli/workspace' ),
     WorkSpace          = require( './core/workspace' ),
-    Key                = require( './key' ),
     Util               = require( './util' ),
     pkg                = require( '../package.json' ),
     logValues          = { 's' : 1, 'js' : 1 },

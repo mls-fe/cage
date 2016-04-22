@@ -1,7 +1,6 @@
-let Promise = require( 'bluebird' ),
-    Exec    = require( 'child_process' ).exec,
-    FS      = Promise.promisifyAll( require( 'fs' ) ),
-    Util    = require( '../util' )
+let Exec = require( 'child_process' ).exec,
+    FS   = require( 'fs' ),
+    Util = require( '../util' )
 
 const DIR_APPS     = '/apps',
       DIR_NEST     = '/nest',
@@ -18,14 +17,22 @@ let phases = [ {
     dir  : DIR_APPS
 } ]
 
+function mkdir( path ) {
+    return new Promise( ( resolve, reject ) => {
+        FS.mkdir( path, err => {
+            err ? reject() : resolve()
+        } )
+    } )
+}
+
 class Setup {
     init( path ) {
         this._path = path
-        return FS.mkdirAsync( path )
+        return mkdir( path )
     }
 
     async checkoutSource( username, password, appSvnUrl ) {
-        return await Promise.all( phases.map( async phaseObj => {
+        return await Promise.all( phases.map( async( phaseObj ) => {
             let name, path
 
             if ( appSvnUrl && phaseObj.name == 'Apps' ) {
@@ -35,7 +42,7 @@ class Setup {
             name = phaseObj.name
             path = this._path + phaseObj.dir
             log( `\n初始化 ${name} 文件夹` )
-            await FS.mkdirAsync( path )
+            await mkdir( path )
 
             return new Promise( ( resolve, reject ) => {
                 Util.indicator.start()
@@ -54,7 +61,7 @@ class Setup {
             } )
         } ) ).then( async() => {
             log( '创建 tmp 文件夹' )
-            await FS.mkdirAsync( this._path + DIR_TMP )
+            await mkdir( this._path + DIR_TMP )
             return this.installDependencies()
         } )
     }
