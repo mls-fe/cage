@@ -88,6 +88,21 @@ Commander
 Commander
     .command( 'ip' )
     .action( async() => {
+        var ip = await Util.getIP()
+        log( ip )
+    } )
+
+Commander
+    .command( 'mac' )
+    .action( async() => {
+        var mac = await Util.getMac()
+        log( mac )
+    } )
+
+Commander
+    .command( 'update' )
+    .alias( 'u' )
+    .action( async() => {
         var config     = new Config( WorkSpace.current() ),
             isIPChange = await config.isIPChange()
 
@@ -97,13 +112,6 @@ Commander
         } else {
             log( 'ip 无变化, 不需要更新.' )
         }
-    } )
-
-Commander
-    .command( 'mac' )
-    .action( async() => {
-        var mac = await Util.getMac()
-        log( mac )
     } )
 
 Commander.parse( process.argv )
