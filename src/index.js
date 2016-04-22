@@ -101,6 +101,9 @@ Commander
 
 Commander
     .command( 'mac' )
-    .action( () => Util.getMac() )
+    .action( async() => {
+        var mac = await Util.getMac()
+        log( mac )
+    } )
 
 Commander.parse( process.argv )
