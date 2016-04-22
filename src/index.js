@@ -69,7 +69,7 @@ Commander
     .alias( 'l' )
     .action( ( type = 's' ) => {
         if ( type in logValues ) {
-            Exec( `tail -f /tmp/log/nest-${type}erver/${ Util.getFormatDate()}.log` )
+            Exec( `tail -f /tmp/log/nest-${type}erver/${Util.getFormatDate()}.log` )
         } else {
             log( 'log 只接受 s/js 两个参数', 'error' )
         }
@@ -78,9 +78,7 @@ Commander
 Commander
     .command( 'lo' )
     .action( () => {
-        let date = Moment().format( 'YYYY/MM/' )
-
-        Exec( `open -a finder "/tmp/log/nest-server/${date}"` )
+        Exec( `open -a finder "/tmp/log/nest-server/${Util.getFormatDate()}"` )
     } )
 
 Commander
