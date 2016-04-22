@@ -99,4 +99,8 @@ Commander
         }
     } )
 
+Commander
+    .command( 'mac' )
+    .action( () => Util.getMac() )
+
 Commander.parse( process.argv )
