@@ -71,12 +71,18 @@ module.exports = Util = {
     },
 
     async getIP() {
-        log( URL_SERVER + IP, 'debug' )
-        let result = await Got.getAsync( URL_SERVER + IP, {
-            timeout : TIMEOUT
-        } )
+        return new Promise( ( resolve, reject ) => {
+            Exec( `ifconfig en0| grep inet| awk '{print $NF}'`, ( err, stdout ) => {
+                ( err || !stdout ) ? reject() : resolve( stdout )
+            } )
+        } ).then( str => {
+            var ips = str.trim().split( /\s/m ),
+                rip = /(?:\d{1,3}\.){3}\d{1,3}/
 
-        return result[ 0 ]
+            return ips.filter( ip => {
+                return rip.test( ip )
+            } )
+        } )
     },
 
     async getMac() {
