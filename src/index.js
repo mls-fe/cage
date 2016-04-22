@@ -14,14 +14,16 @@ require( './profile' )
 let Commander          = require( 'commander' ),
     Exec               = require( 'child_process' ).exec,
     ConfigCLI          = require( './cli/config' ),
+    Config             = require( './core/config' ),
     SetupCLI           = require( './cli/setup' ),
     WorkSpaceCLI       = require( './cli/workspace' ),
     WorkSpace          = require( './core/workspace' ),
+    Key                = require( './key' ),
     Util               = require( './util' ),
     pkg                = require( '../package.json' ),
     logValues          = { 's' : 1, 'js' : 1 },
 
-    findValidWorkspace = async dir => {
+    findValidWorkspace = async( dir ) => {
         let isValid = await WorkSpace.isValidWorkSpace( dir )
 
         if ( !isValid ) {
@@ -94,5 +96,19 @@ Commander
 Commander
     .command( 'ls' )
     .action( () => WorkSpaceCLI.list() )
+
+Commander
+    .command( 'ip' )
+    .action( async() => {
+        var config     = new Config( WorkSpace.current() ),
+            isIPChange = await config.isIPChange()
+
+        if ( isIPChange ) {
+            await config.updateIP()
+            log( 'ip 更新成功', 'success' )
+        } else {
+            log( 'ip 无变化, 不需要更新.' )
+        }
+    } )
 
 Commander.parse( process.argv )

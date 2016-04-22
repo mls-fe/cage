@@ -1,5 +1,16 @@
 # Cage ChangeLog
 
+## 2016-04-22, Version 2.0.0
+
+### Notable changes
+
+- 去掉多余依赖: `getmac`, `keymirror`, `moment`, `npm`, `object-assign`, `open`, `string-width`, `svn-interface`, `tail`, `yosay`, `update-notifier`
+- 去掉 `gulp` 编译依赖
+
+### Improvement
+
+- 增加 `cage ip` 命令, 用于更新 `ip` 地址.
+
 ## 2016-04-18, Version 1.3.8
 
 ### Improvement
