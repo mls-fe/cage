@@ -148,18 +148,17 @@ class ConfigCLI {
             await this.config.updateProxy()
         } catch ( e ) {
             log( '\r服务器挂了!', 'error' )
-            Indicator.stop()
             return
+        } finally {
+            Indicator.stop()
         }
 
-        Indicator.stop()
         log( '更新代理服务器成功', 'success' )
         next()
     }
 
     async finish() {
-        let workspace = new WorkSpace( this.config.getPath() ),
-            domain    = this.config.getSavedDomains()[ 0 ].key
+        let workspace = new WorkSpace( this.config.getPath() )
 
         workspace.active()
         await workspace.start()
