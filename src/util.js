@@ -1,7 +1,7 @@
 let Promise   = require( 'bluebird' ),
     FS_ORIGIN = require( 'fs' ),
     Exec      = require( 'child_process' ).exec,
-    Got       = Promise.promisifyAll( require( 'got' ) ),
+    Request   = require( './request' ),
     FS        = Promise.promisifyAll( FS_ORIGIN ),
     Key       = require( './key' ),
     Const     = require( './const' ),
@@ -11,11 +11,9 @@ let Promise   = require( 'bluebird' ),
     timeoutID = 0,
     Util, Indicator, ObjectAssign
 
-const URL_SERVER    = Const.URL_SERVER,
-      ACTION_UPDATE = 'update?ukey=',
+const ACTION_UPDATE = 'update?ukey=',
       MAC           = Key.mac,
-      IP            = Key.ip,
-      TIMEOUT       = 5000
+      IP            = Key.ip
 
 ObjectAssign = Object.assign || function ( target, ...mixins ) {
         target = target || {}
@@ -104,11 +102,7 @@ module.exports = Util = {
     },
 
     async updateMac( mac ) {
-        log( URL_SERVER + ACTION_UPDATE + mac, 'debug' )
-        let res = await Got.getAsync( URL_SERVER + ACTION_UPDATE + mac, {
-            json    : true,
-            timeout : TIMEOUT
-        } )
+        let res = await Request( ACTION_UPDATE + mac )
 
         if ( res && res[ 0 ].updated ) {
             return true
@@ -119,15 +113,9 @@ module.exports = Util = {
     },
 
     async updateProxy( port, params ) {
-        let mac = await this.getMac(),
-            url = `${URL_SERVER}host?port=${port}&ukey=${mac}&${params}`
+        let mac = await this.getMac()
 
-        log( url, 'debug' )
-
-        return Got
-            .getAsync( url, {
-                timeout : TIMEOUT
-            } )
+        return Request( `host?port=${port}&ukey=${mac}&${params}` )
     },
 
     getFormatDate() {

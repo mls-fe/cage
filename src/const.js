@@ -11,5 +11,6 @@ module.exports = {
     FILE_VHOST,
     FILE_SERVICE : '/nest/jserver/config/service.json',
     SITE_SUFFIX  : '.fedevot.meilishuo.com',
-    URL_SERVER   : 'http://172.18.16.20:2016/'
+    URL_SERVER   : '172.18.16.20',
+    URL_PORT     : '2016'
 }
