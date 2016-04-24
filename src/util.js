@@ -1,8 +1,6 @@
-let Promise   = require( 'bluebird' ),
-    FS_ORIGIN = require( 'fs' ),
+let FS        = require( 'fs' ),
     Exec      = require( 'child_process' ).exec,
     Request   = require( './request' ),
-    FS        = Promise.promisifyAll( FS_ORIGIN ),
     Key       = require( './key' ),
     Const     = require( './const' ),
     count     = 0,
@@ -53,7 +51,11 @@ module.exports = Util = {
 
     updateJSONFile( path, content ) {
         content = JSON.stringify( ObjectAssign( {}, require( path ), content ) )
-        return FS.writeFileAsync( path, content )
+        return new Promise( ( resolve, reject ) => {
+            FS.writeFile( path, content, err => {
+                err ? reject() : resolve()
+            } )
+        } )
     },
 
     checkFileExist( path ) {
