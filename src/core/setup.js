@@ -1,8 +1,6 @@
-let Promise = require( 'bluebird' ),
-    FS      = Promise.promisifyAll( require( 'fs' ) ),
-    SVN     = Promise.promisifyAll( require( 'svn-interface' ) ),
-    NPM     = require( 'npm' ),
-    Util    = require( '../util' )
+let Exec = require( 'child_process' ).exec,
+    FS   = require( 'fs' ),
+    Util = require( '../util' )
 
 const DIR_APPS     = '/apps',
       DIR_NEST     = '/nest',
@@ -19,14 +17,22 @@ let phases = [ {
     dir  : DIR_APPS
 } ]
 
+function mkdir( path ) {
+    return new Promise( ( resolve, reject ) => {
+        FS.mkdir( path, err => {
+            err ? reject() : resolve()
+        } )
+    } )
+}
+
 class Setup {
     init( path ) {
         this._path = path
-        return FS.mkdirAsync( path )
+        return mkdir( path )
     }
 
     async checkoutSource( username, password, appSvnUrl ) {
-        return await Promise.all( phases.map( async phaseObj => {
+        return await Promise.all( phases.map( async( phaseObj ) => {
             let name, path
 
             if ( appSvnUrl && phaseObj.name == 'Apps' ) {
@@ -36,33 +42,26 @@ class Setup {
             name = phaseObj.name
             path = this._path + phaseObj.dir
             log( `\n初始化 ${name} 文件夹` )
-            await FS.mkdirAsync( path )
+            await mkdir( path )
 
             return new Promise( ( resolve, reject ) => {
                 Util.indicator.start()
 
-                let childProcess = SVN.co( phaseObj.url, path, {
-                    username, password
-                }, err => {
+                Exec( `svn checkout ${phaseObj.url} ${path} --username ${username} --password ${password}`, err => {
+                    Util.indicator.stop()
                     if ( !err ) {
-                        Util.indicator.stop()
                         log( `${name} 设置成功!`, 'success' )
                         resolve()
-                    }
-                } )
-
-                childProcess.stderr.on( 'data', data => {
-                    if ( !this.hasError ) {
+                    } else {
+                        log( `${name} 设置失败!`, 'error' )
+                        log( err, 'info' )
                         reject()
-                        childProcess.kill()
-                        this.hasError = true
-                        this.error( data.toString() )
                     }
                 } )
             } )
         } ) ).then( async() => {
             log( '创建 tmp 文件夹' )
-            await FS.mkdirAsync( this._path + DIR_TMP )
+            await mkdir( this._path + DIR_TMP )
             return this.installDependencies()
         } )
     }
@@ -73,12 +72,17 @@ class Setup {
         log( '安装 less 与 uglify-js' )
 
         return new Promise( resolve => {
-            NPM.load( {}, function ( err, npm ) {
-                npm.commands.install( deptPath, DEPENDENCIES, () => {
+            Exec( `cd ${deptPath} && npm install ${DEPENDENCIES.join( ' ' )}`, ( err, stdout ) => {
+                Util.indicator.stop()
+
+                if ( err ) {
+                    log( err, 'error' )
+                    log( '\n依赖库安装失败!', 'error' )
+                } else {
+                    log( stdout, 'info' )
                     log( '\n依赖库安装成功!', 'success' )
-                    Util.indicator.stop()
                     resolve()
-                } )
+                }
             } )
         } )
     }

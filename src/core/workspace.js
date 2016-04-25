@@ -1,5 +1,4 @@
-let Promise = require( 'bluebird' ),
-    Exec    = require( 'child_process' ).exec,
+let Exec    = require( 'child_process' ).exec,
     Key     = require( '../key' ),
     Const   = require( '../const' ),
     Util    = require( '../util' ),
@@ -40,8 +39,8 @@ class WorkSpace {
             alreadyExist = list.some( ( item, i ) => {
                 if ( item == path ) {
                     existPath = {
-                        val: item,
-                        index: i
+                        val   : item,
+                        index : i
                     }
                     return true
                 }
