@@ -76,9 +76,10 @@ Commander
     .alias( 'l' )
     .action( ( type = 's' ) => {
         if ( type in logValues ) {
-            Exec( `tail -f /tmp/log/nest-${type}erver/${Util.getFormatDate()}.log` )
-                .on( 'message', message => log( message ) )
+            let client = Exec( `tail -f /tmp/log/nest-${type}erver/${Util.getFormatDate()}.log` )
                 .on( 'error', err => log( err, 'error' ) )
+
+            client.stdout.pipe( process.stdout )
         } else {
             log( 'log 只接受 s/js 两个参数', 'error' )
         }
