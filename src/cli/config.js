@@ -117,7 +117,7 @@ class ConfigCLI {
     async configAddress( next ) {
         log( '设置 IP' )
         let c        = this.config,
-            isChange = await c.isIPChange()
+            isChange = c.isIPChange()
 
         if ( isChange ) {
             log( 'IP 需要更新...' )

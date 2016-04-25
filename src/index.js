@@ -100,9 +100,8 @@ Commander
 Commander
     .command( 'ip' )
     .description( '显示本机 IP 地址' )
-    .action( async() => {
-        var ip = await Util.getIP()
-        log( ip )
+    .action( () => {
+        log( Util.getIP() )
     } )
 
 Commander
@@ -119,7 +118,7 @@ Commander
     .alias( 'u' )
     .action( async() => {
         var config     = new Config( WorkSpace.current() ),
-            isIPChange = await config.isIPChange()
+            isIPChange = config.isIPChange()
 
         if ( isIPChange ) {
             await config.updateIP()
@@ -134,7 +133,7 @@ Commander
     .description( '显示你配置过的域名列表' )
     .action( async() => {
         var mac     = await Util.getMac(),
-            result  = await Request( '/hostlist?ukey=' + mac ),
+            result  = await Request( 'hostlist?ukey=' + mac ),
             display = ''
 
         if ( result ) {

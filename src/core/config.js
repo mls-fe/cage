@@ -109,8 +109,8 @@ class Config {
         param.domains    = []
     }
 
-    async isIPChange() {
-        let ip = this.param.ip = await Util.getIP()
+    isIPChange() {
+        let ip = this.param.ip = Util.getIP()
         log( ip, 'debug' )
         return Profile.get( IP ) != ip
     }

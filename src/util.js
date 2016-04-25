@@ -1,4 +1,5 @@
-let FS        = require( 'fs' ),
+let OS        = require( 'os' ),
+    FS        = require( 'fs' ),
     Exec      = require( 'child_process' ).exec,
     Request   = require( './request' ),
     Key       = require( './key' ),
@@ -9,7 +10,7 @@ let FS        = require( 'fs' ),
     timeoutID = 0,
     Util, Indicator, ObjectAssign
 
-const ACTION_UPDATE = '/update?ukey=',
+const ACTION_UPDATE = 'update?ukey=',
       MAC           = Key.mac,
       IP            = Key.ip
 
@@ -70,19 +71,18 @@ module.exports = Util = {
         return require( basePath + Const.FILE_ETC ).onPort
     },
 
-    async getIP() {
-        return new Promise( ( resolve, reject ) => {
-            Exec( `ifconfig en0| grep inet| awk '{print $NF}'`, ( err, stdout ) => {
-                ( err || !stdout ) ? reject() : resolve( stdout )
-            } )
-        } ).then( str => {
-            var ips = str.trim().split( /\s/m ),
-                rip = /(?:\d{1,3}\.){3}\d{1,3}/
+    getIP() {
+        var ifaces = OS.networkInterfaces(),
+            ret    = []
 
-            return ips.filter( ip => {
-                return rip.test( ip )
-            } )[ 0 ]
-        } )
+        for ( var dev in ifaces ) {
+            ifaces[ dev ].forEach( details => {
+                if ( details.family == 'IPv4' && !details.internal ) {
+                    ret.push( details.address )
+                }
+            } )
+        }
+        return ret.length ? ret[ 0 ] : null
     },
 
     async getMac() {
