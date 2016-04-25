@@ -121,7 +121,7 @@ class Config {
 
         if ( res ) {
             let port = Util.getPort( this.getPath() ) + 1,
-                ip   = Profile.get( IP ),
+                ip   = this.param.ip,
                 url  = `http://${ip}:${port}/`
 
             await Util.updateJSONFile( this.getPath() + Const.FILE_SITE, {

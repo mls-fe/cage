@@ -54,10 +54,7 @@ Request = path => {
         req.on( 'error', err => {
             reject( {
                 code : -1,
-                msg  : `
-                网络请求失败, 失败原因:
-                ${err}
-                `
+                msg  : `网络请求失败, 失败原因:\n${err}`
             } )
         } )
 

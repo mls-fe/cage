@@ -118,12 +118,12 @@ Commander
     .description( '更新环境配置' )
     .alias( 'u' )
     .action( async() => {
-        var config     = new Config( WorkSpace.current() ),
+        let config     = new Config( WorkSpace.current() ),
             isIPChange = config.isIPChange()
 
         if ( isIPChange ) {
-            await config.updateIP()
-            log( 'ip 更新成功', 'success' )
+            let result = await config.updateIP()
+            result && log( 'ip 更新成功', 'success' )
         } else {
             log( 'ip 无变化, 不需要更新.' )
         }
