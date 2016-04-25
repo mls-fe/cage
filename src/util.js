@@ -9,7 +9,7 @@ let FS        = require( 'fs' ),
     timeoutID = 0,
     Util, Indicator, ObjectAssign
 
-const ACTION_UPDATE = 'update?ukey=',
+const ACTION_UPDATE = '/update?ukey=',
       MAC           = Key.mac,
       IP            = Key.ip
 
@@ -81,7 +81,7 @@ module.exports = Util = {
 
             return ips.filter( ip => {
                 return rip.test( ip )
-            } )
+            } )[ 0 ]
         } )
     },
 
@@ -106,11 +106,10 @@ module.exports = Util = {
     async updateMac( mac ) {
         let res = await Request( ACTION_UPDATE + mac )
 
-        if ( res && res[ 0 ].updated ) {
+        Indicator.stop()
+        if ( res && res.code == '0' ) {
             return true
         }
-
-        Indicator.stop()
         log( '更新 IP 地址失败', 'error' )
     },
 

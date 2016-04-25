@@ -140,6 +140,7 @@ Commander
 ${data.host}
     id: ${data.id}
     ip: ${data.ip}
+    port: ${data.port}
     ukey: ${data.ukey}
                 `
             } )
