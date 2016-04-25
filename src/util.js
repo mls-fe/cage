@@ -51,12 +51,18 @@ module.exports = Util = {
     indicator : Indicator,
 
     updateJSONFile( path, content ) {
-        content = JSON.stringify( ObjectAssign( {}, require( path ), content ), null, '  ' )
+        try {
+            content = JSON.stringify( ObjectAssign( {}, require( path ), content ), null, '  ' )
+        } catch ( e ) {
+            log( `读取 ${path} 文件错误, 原因为:` )
+            log( e, 'error' )
+        }
+
         return new Promise( ( resolve, reject ) => {
             FS.writeFile( path, content, err => {
                 err ? reject() : resolve()
             } )
-        } )
+        } ).catch( e => log( e, 'error' ) )
     },
 
     checkFileExist( path ) {
