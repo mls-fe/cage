@@ -51,7 +51,7 @@ module.exports = Util = {
     indicator : Indicator,
 
     updateJSONFile( path, content ) {
-        content = JSON.stringify( ObjectAssign( {}, require( path ), content ) )
+        content = JSON.stringify( ObjectAssign( {}, require( path ), content ), null, '  ' )
         return new Promise( ( resolve, reject ) => {
             FS.writeFile( path, content, err => {
                 err ? reject() : resolve()
