@@ -66,3 +66,13 @@ whornbill 环境配置。
 
 #### 显示工作空间列表
     cage ls
+
+#### 更新配置(例如 ip 地址更改)
+    cage update
+    cage u
+
+#### 显示本机 IP
+    cage ip
+
+#### 显示本机 Mac
+    cage mac

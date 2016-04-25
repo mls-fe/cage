@@ -1,10 +1,10 @@
 # Cage ChangeLog
 
-## 2016-04-24, Version 2.0.0
+## 2016-04-25, Version 2.0.0-beta
 
 ### Notable changes
 
-- 去掉多余依赖: `getmac`, `keymirror`, `moment`, `npm`, `object-assign`, `open`, `string-width`, `svn-interface`, `tail`, `yosay`, `update-notifier`, `got`
+- 去掉多余依赖: `chalk`, `getmac`, `keymirror`, `moment`, `npm`, `object-assign`, `open`, `string-width`, `svn-interface`, `tail`, `yosay`, `update-notifier`, `got`
 - 去掉 `gulp` 编译依赖
 
 ### Improvement
@@ -12,6 +12,7 @@
 - 增加 `cage ip` 命令, 用于显示 `ip` 地址.
 - 增加 `cage mac` 命令, 用于显示 `mac` 地址.
 - 增加 `cage update` 命令, 暂时用于更新 `ip` 地址.
+- 增加 `cage hostlist` 命令, 显示曾经配置的域名列表
 
 ## 2016-04-18, Version 1.3.8
 
