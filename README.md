@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/cage.svg)](https://badge.fury.io/js/cage)
 
+**注意: 2.0 版本的 setup 命令暂时存在问题, 后续版本修复.**
+
 ## 介绍
 
 whornbill 环境配置。

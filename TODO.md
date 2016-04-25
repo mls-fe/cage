@@ -1,2 +1,0 @@
-- remove unnecessary dependencies
-- handle http request timeout

@@ -1,6 +1,6 @@
 # Cage ChangeLog
 
-## 2016-04-25, Version 2.0.0-beta
+## 2016-04-25, Version 2.0.0
 
 ### Notable changes
 
