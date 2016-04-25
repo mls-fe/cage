@@ -130,10 +130,21 @@ Commander
     .command( 'hostlist' )
     .description( '显示你配置过的域名列表' )
     .action( async() => {
-        var mac    = await Util.getMac(),
-            result = await Request( '/hostlist?ukey=' + mac )
+        var mac     = await Util.getMac(),
+            result  = await Request( '/hostlist?ukey=' + mac ),
+            display = ''
 
-        result && log( result.data )
+        if ( result ) {
+            result.data.forEach( data => {
+                display += `
+${data.host}
+    id: ${data.id}
+    ip: ${data.ip}
+    ukey: ${data.ukey}
+                `
+            } )
+            log( display )
+        }
     } )
 
 Commander.parse( process.argv )
