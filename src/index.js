@@ -9,6 +9,7 @@ let Commander          = require( 'commander' ),
     SetupCLI           = require( './cli/setup' ),
     WorkSpaceCLI       = require( './cli/workspace' ),
     WorkSpace          = require( './core/workspace' ),
+    Request            = require( './request' ),
     Util               = require( './util' ),
     pkg                = require( '../package.json' ),
     logValues          = { 's' : 1, 'js' : 1 },
@@ -34,15 +35,18 @@ Commander
 
 Commander
     .command( 'setup [dir] [url]' )
-    .action( ( dir, url ) => new SetupCLI( dir || '', url || '' ) )
+    .description( '在 dir 文件夹下生成环境' )
+    .action( ( dir = '', url = '' ) => new SetupCLI( dir, url ) )
 
 Commander
     .command( 'config [dir]' )
+    .description( '配置环境' )
     .alias( 'c' )
     .action( ( dir = process.cwd() ) => new ConfigCLI( dir ) )
 
 Commander
     .command( 'run' )
+    .description( '运行服务' )
     .alias( 'r' )
     .action( async() => {
         let result = await findValidWorkspace( process.cwd() )
@@ -51,6 +55,7 @@ Commander
 
 Commander
     .command( 'stop [isAll]' )
+    .description( '停止服务' )
     .alias( 's' )
     .action( async( isAll = false ) => {
         let result = await findValidWorkspace( process.cwd() )
@@ -59,6 +64,7 @@ Commander
 
 Commander
     .command( 'sa' )
+    .description( '停止所有服务' )
     .action( async() => {
         let result = await findValidWorkspace( process.cwd() )
         new WorkSpace( result.dir ).stop( 'all' )
@@ -66,6 +72,7 @@ Commander
 
 Commander
     .command( 'log [type]' )
+    .description( '显示日志' )
     .alias( 'l' )
     .action( ( type = 's' ) => {
         if ( type in logValues ) {
@@ -77,16 +84,19 @@ Commander
 
 Commander
     .command( 'lo' )
+    .description( '打开日志所在位置' )
     .action( () => {
         Exec( `open -a finder "/tmp/log/nest-server/${Util.getFormatDate()}"` )
     } )
 
 Commander
     .command( 'ls' )
+    .description( '显示工作空间列表' )
     .action( () => WorkSpaceCLI.list() )
 
 Commander
     .command( 'ip' )
+    .description( '显示本机 IP 地址' )
     .action( async() => {
         var ip = await Util.getIP()
         log( ip )
@@ -94,6 +104,7 @@ Commander
 
 Commander
     .command( 'mac' )
+    .description( '显示本机 Mac 地址' )
     .action( async() => {
         var mac = await Util.getMac()
         log( mac )
@@ -101,6 +112,7 @@ Commander
 
 Commander
     .command( 'update' )
+    .description( '更新环境配置' )
     .alias( 'u' )
     .action( async() => {
         var config     = new Config( WorkSpace.current() ),
@@ -112,6 +124,16 @@ Commander
         } else {
             log( 'ip 无变化, 不需要更新.' )
         }
+    } )
+
+Commander
+    .command( 'hostlist' )
+    .description( '显示你配置过的域名列表' )
+    .action( async() => {
+        var mac    = await Util.getMac(),
+            result = await Request( '/hostlist?ukey=' + mac )
+
+        result && log( result.data )
     } )
 
 Commander.parse( process.argv )

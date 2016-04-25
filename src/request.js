@@ -6,6 +6,8 @@ let HTTP         = require( 'http' ),
     Request
 
 Request = path => {
+    path = path.trim()
+    
     return new Promise( ( resolve, reject ) => {
         let result = '',
             option = {
@@ -23,6 +25,7 @@ Request = path => {
 
             res.on( 'end', () => {
                 try {
+                    console.log( result )
                     result = JSON.parse( result )
                 } catch ( e ) {
                     result = {
@@ -54,6 +57,8 @@ Request = path => {
         } )
 
         req.end()
+    } ).catch( e => {
+        log( e.msg, 'error' )
     } )
 }
 
