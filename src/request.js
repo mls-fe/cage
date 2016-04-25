@@ -2,7 +2,6 @@ let HTTP         = require( 'http' ),
     Const        = require( './const' ),
     timeoutLimit = 5000,
     host         = Const.URL_SERVER,
-    port         = Const.URL_PORT,
     Request
 
 Request = path => {
@@ -11,7 +10,7 @@ Request = path => {
     return new Promise( ( resolve, reject ) => {
         let result = '',
             option = {
-                host, port, path
+                host, path
             },
             timeoutID, req
 
@@ -39,19 +38,22 @@ Request = path => {
             } )
         } )
 
-        log( `http://${host}:${port}${path}`, 'debug' )
+        log( `http://${host}${path}`, 'debug' )
 
         req.setTimeout( timeoutLimit, () => {
             reject( {
                 code : -1,
-                msg  : '请求超时.'
+                msg  : '网络请求超时.'
             } )
         } )
 
         req.on( 'error', err => {
             reject( {
                 code : -1,
-                msg  : `网络请求失败, 失败原因:\n${err}`
+                msg  : `
+                网络请求失败, 失败原因:
+                ${err}
+                `
             } )
         } )
 

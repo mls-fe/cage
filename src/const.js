@@ -8,6 +8,5 @@ module.exports = {
     FILE_VHOST   : `${DIR_CONFIG}/virtual_host.json`,
     FILE_SERVICE : '/nest/jserver/config/service.json',
     SITE_SUFFIX  : '.fedevot.meilishuo.com',
-    URL_SERVER   : '172.18.16.20',
-    URL_PORT     : '2018'
+    URL_SERVER   : 'rabbit.fedevot.meilishuo.com'
 }
