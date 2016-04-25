@@ -1,6 +1,8 @@
-let Exec = require( 'child_process' ).exec,
-    FS   = require( 'fs' ),
-    Util = require( '../util' )
+let ChildProcess = require( 'child_process' ),
+    Spawn        = ChildProcess.spawn,
+    Exec         = ChildProcess.exec,
+    FS           = require( 'fs' ),
+    Util         = require( '../util' )
 
 const DIR_APPS     = '/apps',
       DIR_NEST     = '/nest',
@@ -46,17 +48,22 @@ class Setup {
 
             return new Promise( ( resolve, reject ) => {
                 Util.indicator.start()
+                let args = [ 'checkout', phaseObj.url, path, '--username', username, '--password', password ],
+                    client
 
-                Exec( `svn checkout ${phaseObj.url} ${path} --username ${username} --password ${password}`, err => {
+                client = Spawn( 'svn', args, {} )
+
+                client.on( 'err', err => {
                     Util.indicator.stop()
-                    if ( !err ) {
-                        log( `${name} 设置成功!`, 'success' )
-                        resolve()
-                    } else {
-                        log( `${name} 设置失败!`, 'error' )
-                        log( err, 'info' )
-                        reject()
-                    }
+                    log( `${name} 设置失败!`, 'error' )
+                    log( err, 'info' )
+                    reject()
+                } )
+
+                client.on( 'exit', () => {
+                    Util.indicator.stop()
+                    log( `${name} 设置成功!`, 'success' )
+                    resolve()
                 } )
             } )
         } ) ).then( async() => {
@@ -70,9 +77,12 @@ class Setup {
         let deptPath = this._path + DIR_NEST
 
         log( '安装 less 与 uglify-js' )
+        Util.indicator.start()
 
         return new Promise( resolve => {
-            Exec( `cd ${deptPath} && npm install ${DEPENDENCIES.join( ' ' )}`, ( err, stdout ) => {
+            let command = `cd ${deptPath} && npm install ${DEPENDENCIES.join( ' ' )}`
+            log( command, 'debug' )
+            Exec( command, ( err, stdout ) => {
                 Util.indicator.stop()
 
                 if ( err ) {
@@ -83,7 +93,7 @@ class Setup {
                     log( '\n依赖库安装成功!', 'success' )
                     resolve()
                 }
-            } )
+            } ).stdout.pipe( process.stdout )
         } )
     }
 
