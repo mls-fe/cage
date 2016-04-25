@@ -64,15 +64,15 @@ whornbill 环境配置。
 ### 工作空间
 *工作空间(workspace): 每一个 whornbill 环境都可以看做一个工作空间，你可以在不同空间中切换。*
 
-#### 显示工作空间列表
+### 显示工作空间列表
     cage ls
 
-#### 更新配置(例如 ip 地址更改)
+### 更新配置(例如 ip 地址更改)
     cage update
     cage u
 
-#### 显示本机 IP
+### 显示本机 IP
     cage ip
 
-#### 显示本机 Mac
+### 显示本机 Mac
     cage mac
