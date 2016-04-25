@@ -5,9 +5,13 @@ let HTTP         = require( 'http' ),
     Request
 
 Request = path => {
-    path = path.trim()
-
     return new Promise( ( resolve, reject ) => {
+        path = path.replace( /\s+/g, '' )
+
+        if ( path.indexOf( '/' ) != 0 ) {
+            path = '/' + path
+        }
+
         let result = '',
             option = {
                 host, path
