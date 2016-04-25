@@ -122,7 +122,7 @@ module.exports = Util = {
     getFormatDate() {
         var now   = new Date,
             year  = now.getFullYear(),
-            month = String( now.getMonth() ),
+            month = String( now.getMonth() + 1 ),
             date  = String( now.getDate() )
 
         month = month.length > 1 ? month : ( '0' + month )

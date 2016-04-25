@@ -77,6 +77,8 @@ Commander
     .action( ( type = 's' ) => {
         if ( type in logValues ) {
             Exec( `tail -f /tmp/log/nest-${type}erver/${Util.getFormatDate()}.log` )
+                .on( 'message', message => log( message ) )
+                .on( 'error', err => log( err, 'error' ) )
         } else {
             log( 'log 只接受 s/js 两个参数', 'error' )
         }
@@ -86,7 +88,8 @@ Commander
     .command( 'lo' )
     .description( '打开日志所在位置' )
     .action( () => {
-        Exec( `open -a finder "/tmp/log/nest-server/${Util.getFormatDate()}"` )
+        Exec( 'open -a finder "/tmp/log/nest-server/"' )
+            .on( 'error', err => log( err, 'error' ) )
     } )
 
 Commander
