@@ -74,12 +74,19 @@ Commander
     .command( 'log [type]' )
     .description( '显示日志' )
     .alias( 'l' )
-    .action( ( type = 's' ) => {
+    .action( async( type = 's' ) => {
         if ( type in logValues ) {
-            let client = Exec( `tail -f /tmp/log/nest-${type}erver/${Util.getFormatDate()}.log` )
-                .on( 'error', err => log( err, 'error' ) )
+            let filepath = `/tmp/log/nest-${type}erver/${Util.getFormatDate()}.log`,
+                isExist  = await Util.checkFileExist( filepath )
 
-            client.stdout.pipe( process.stdout )
+            if ( isExist ) {
+                let client = Exec( `tail -f ${filepath}` )
+                    .on( 'error', err => log( err, 'error' ) )
+
+                client.stdout.pipe( process.stdout )
+            } else {
+                log( '日志文件不存在, 使用 cage r 重启服务, 然后再执行 cage l', 'warn')
+            }
         } else {
             log( 'log 只接受 s/js 两个参数', 'error' )
         }
