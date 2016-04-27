@@ -51,17 +51,23 @@ module.exports = Util = {
     indicator : Indicator,
 
     updateJSONFile( path, content ) {
-        try {
-            content = JSON.stringify( ObjectAssign( {}, require( path ), content ), null, '  ' )
-        } catch ( e ) {
-            log( `读取 ${path} 文件错误, 原因为:` )
-            log( e, 'error' )
-        }
+        return this.checkFileExist( path ).then( isExist => {
+            if ( !isExist ) {
+                return Promise.reject( '文件不存在' )
+            } else {
+                try {
+                    content = JSON.stringify( ObjectAssign( {}, require( path ), content ), null, '  ' )
+                } catch ( e ) {
+                    log( `读取 ${path} 文件错误, 原因为:` )
+                    log( e, 'error' )
+                }
 
-        return new Promise( ( resolve, reject ) => {
-            FS.writeFile( path, content, err => {
-                err ? reject() : resolve()
-            } )
+                return new Promise( ( resolve, reject ) => {
+                    FS.writeFile( path, content, err => {
+                        err ? reject() : resolve()
+                    } )
+                } )
+            }
         } ).catch( e => log( e, 'error' ) )
     },
 
@@ -95,7 +101,7 @@ module.exports = Util = {
         var getMacAddress = () => {
             return new Promise( ( resolve, reject ) => {
                 Exec( `ifconfig en0| grep ether| awk '{print $NF}'`, ( err, stdout ) => {
-                    ( err || !stdout ) ? reject() : resolve( stdout )
+                    ( err || !stdout ) ? reject() : resolve( stdout.trim() )
                 } )
             } )
         }
