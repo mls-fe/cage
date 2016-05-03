@@ -12,7 +12,7 @@ let Commander          = require( 'commander' ),
     Request            = require( './request' ),
     Util               = require( './util' ),
     pkg                = require( '../package.json' ),
-    logValues          = { 's' : 1, 'js' : 1 },
+    logValues          = { 's': 1, 'js': 1 },
 
     findValidWorkspace = async( dir ) => {
         let isValid = await WorkSpace.isValidWorkSpace( dir )
@@ -76,16 +76,23 @@ Commander
     .alias( 'l' )
     .action( async( type = 's' ) => {
         if ( type in logValues ) {
-            let filepath = `/tmp/log/nest-${type}erver/${Util.getFormatDate()}.log`,
-                isExist  = await Util.checkFileExist( filepath )
-
-            if ( isExist ) {
+            let displayLog = () => {
                 let client = Exec( `tail -f ${filepath}` )
                     .on( 'error', err => log( err, 'error' ) )
 
                 client.stdout.pipe( process.stdout )
+            }
+            let filepath   = `/tmp/log/nest-${type}erver/${Util.getFormatDate()}.log`,
+                isExist    = await Util.checkFileExist( filepath )
+
+            if ( isExist ) {
+                displayLog()
             } else {
-                log( '日志文件不存在, 使用 cage r 重启服务, 然后再执行 cage l', 'warn')
+                log( '日志文件不存在, 正在重启 whornbill 服务...', 'warn' )
+                let result = await findValidWorkspace( process.cwd() )
+                new WorkSpace( result.dir )
+                    .start()
+                    .then( displayLog )
             }
         } else {
             log( 'log 只接受 s/js 两个参数', 'error' )
