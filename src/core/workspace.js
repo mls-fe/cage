@@ -39,8 +39,8 @@ class WorkSpace {
             alreadyExist = list.some( ( item, i ) => {
                 if ( item == path ) {
                     existPath = {
-                        val   : item,
-                        index : i
+                        val  : item,
+                        index: i
                     }
                     return true
                 }
@@ -59,7 +59,7 @@ class WorkSpace {
         WorkSpace.setCurrentWorkSpace( this.basePath )
     }
 
-    start() {
+    start( autoExit = true ) {
         return new Promise( resolve => {
             let path    = this.basePath,
                 command = `cd ${path}/nest/cmd && ./service2.sh restart`
@@ -70,9 +70,9 @@ class WorkSpace {
                 .on( 'exit', () => {
                     log( '服务器正在运行' )
                     resolve( true )
-                    setTimeout( () => {
-                        process.exit()
-                    }, 0 )
+                    process.nextTick( () => {
+                        autoExit && process.exit()
+                    } )
                 } )
                 .on( 'error', () => {
                     resolve( false )

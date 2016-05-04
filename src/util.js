@@ -48,7 +48,7 @@ Indicator = {
 }
 
 module.exports = Util = {
-    indicator : Indicator,
+    indicator: Indicator,
 
     updateJSONFile( path, content ) {
         return this.checkFileExist( path ).then( isExist => {
@@ -83,18 +83,9 @@ module.exports = Util = {
         return require( basePath + Const.FILE_ETC ).onPort
     },
 
-    getIP() {
-        var ifaces = OS.networkInterfaces(),
-            ret    = []
-
-        for ( var dev in ifaces ) {
-            ifaces[ dev ].forEach( details => {
-                if ( details.family == 'IPv4' && !details.internal ) {
-                    ret.push( details.address )
-                }
-            } )
-        }
-        return ret.length ? ret[ 0 ] : null
+    async getIP() {
+        var result = await Request( 'ip' )
+        return result.data
     },
 
     async getMac() {

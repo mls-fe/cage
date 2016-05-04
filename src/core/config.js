@@ -44,16 +44,16 @@ class Config {
             url = `http://${ip}:${port + 1}/`
 
             await Util.updateJSONFile( path + Const.FILE_SITE, {
-                'JCSTATIC_BASE'   : url,
-                'M_JCSTATIC_BASE' : url
+                'JCSTATIC_BASE'  : url,
+                'M_JCSTATIC_BASE': url
             } )
 
             await Util.updateJSONFile( path + Const.FILE_ETC, {
-                onPort : port
+                onPort: port
             } )
 
             await Util.updateJSONFile( path + Const.FILE_SERVICE, {
-                onPort : port + 1
+                onPort: port + 1
             } )
         }
     }
@@ -89,7 +89,7 @@ class Config {
         for ( let key in defaultDomains ) {
             domainsArr.push( {
                 key,
-                value : defaultDomains[ key ]
+                value: defaultDomains[ key ]
             } )
         }
 
@@ -109,8 +109,8 @@ class Config {
         param.domains    = []
     }
 
-    isIPChange() {
-        let ip = this.param.ip = Util.getIP()
+    async isIPChange() {
+        let ip = this.param.ip = await Util.getIP()
         log( ip, 'debug' )
         return Profile.get( IP ) != ip
     }
@@ -125,8 +125,8 @@ class Config {
                 url  = `http://${ip}:${port}/`
 
             await Util.updateJSONFile( this.getPath() + Const.FILE_SITE, {
-                'JCSTATIC_BASE'   : url,
-                'M_JCSTATIC_BASE' : url
+                'JCSTATIC_BASE'  : url,
+                'M_JCSTATIC_BASE': url
             } )
 
             Profile.set( IP, this.param.ip )

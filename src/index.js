@@ -91,7 +91,7 @@ Commander
                 log( '日志文件不存在, 正在重启 whornbill 服务...', 'warn' )
                 let result = await findValidWorkspace( process.cwd() )
                 new WorkSpace( result.dir )
-                    .start()
+                    .start( false )
                     .then( displayLog )
             }
         } else {
@@ -115,8 +115,9 @@ Commander
 Commander
     .command( 'ip' )
     .description( '显示本机 IP 地址' )
-    .action( () => {
-        log( Util.getIP() )
+    .action( async() => {
+        var ip = await Util.getIP()
+        log( ip )
     } )
 
 Commander
@@ -133,7 +134,7 @@ Commander
     .alias( 'u' )
     .action( async() => {
         let config     = new Config( WorkSpace.current() ),
-            isIPChange = config.isIPChange()
+            isIPChange = await config.isIPChange()
 
         if ( isIPChange ) {
             let result = await config.updateIP()
