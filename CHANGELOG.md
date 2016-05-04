@@ -1,6 +1,27 @@
 # Cage ChangeLog
 
-## 2016-04-25, Version 2.0.0
+## 2016-05-05, Version 2.0.0
+
+### Improvement
+
+- add unit test(not complete)
+
+### Fix
+
+- fix `cage l`, add extra infomation.
+- when there's no ip config, first run would generate a undefined value.
+
+## 2016-04-27, Version 2.0.0-beta-2
+
+### Fix
+
+- fix `cage setup`
+- fix `cage hostlist`'s format
+- fix date format
+- use a domain name instead of ip address
+- change `getIP()` to sync function
+
+## 2016-04-25, Version 2.0.0-beta-1
 
 ### Notable changes
 
