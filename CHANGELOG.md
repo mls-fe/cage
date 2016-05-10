@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2016-05-10, Version 2.1.0
+
+### Improvement
+
+- `cage u` can change port
+
 ## 2016-05-05, Version 2.0.0
 
 ### Improvement
