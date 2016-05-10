@@ -11,6 +11,7 @@ let Commander          = require( 'commander' ),
     WorkSpace          = require( './core/workspace' ),
     Request            = require( './request' ),
     Util               = require( './util' ),
+    Key                = require( './key' ),
     pkg                = require( '../package.json' ),
     logValues          = { 's': 1, 'js': 1 },
 
@@ -136,12 +137,19 @@ Commander
         let config     = new Config( WorkSpace.current() ),
             isIPChange = await config.isIPChange()
 
+        config.setPortOption( Key.random )
+        await config.updateProxy()
+        log( '端口更新成功', 'success' )
+
         if ( isIPChange ) {
             let result = await config.updateIP()
             result && log( 'ip 更新成功', 'success' )
         } else {
-            log( 'ip 无变化, 不需要更新.' )
+            log( 'ip 无变化, 不需要更新' )
         }
+
+        let result = await findValidWorkspace( process.cwd() )
+        new WorkSpace( result.dir ).start()
     } )
 
 Commander

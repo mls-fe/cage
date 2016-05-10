@@ -53,7 +53,8 @@ module.exports = Util = {
     updateJSONFile( path, content ) {
         return this.checkFileExist( path ).then( isExist => {
             if ( !isExist ) {
-                return Promise.reject( '文件不存在' )
+                log( `${path} 文件不存在`, 'error' )
+                return Promise.reject( `${path} 文件不存在` )
             } else {
                 try {
                     content = JSON.stringify( ObjectAssign( {}, require( path ), content ), null, '  ' )
@@ -118,7 +119,6 @@ module.exports = Util = {
 
     async updateProxy( port, params ) {
         let mac = await this.getMac()
-
         return Request( `host?port=${port}&ukey=${mac}&${params}` )
     },
 
