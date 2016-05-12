@@ -1,5 +1,4 @@
-let OS        = require( 'os' ),
-    FS        = require( 'fs' ),
+let FS        = require( 'fs' ),
     Exec      = require( 'child_process' ).exec,
     Request   = require( './request' ),
     Key       = require( './key' ),
@@ -86,7 +85,7 @@ module.exports = Util = {
 
     async getIP() {
         var result = await Request( 'ip' )
-        return result.data
+        return result && result.data
     },
 
     async getMac() {

@@ -31,8 +31,8 @@ Request = path => {
                     result = JSON.parse( result )
                 } catch ( e ) {
                     result = {
-                        code : -1,
-                        msg  : `服务器端返回的不是有效的 JSON 格式:
+                        code: -1,
+                        msg : `服务器端返回的不是有效的 JSON 格式:
                             ${result}`
                     }
                 }
@@ -46,15 +46,15 @@ Request = path => {
 
         req.setTimeout( timeoutLimit, () => {
             reject( {
-                code : -1,
-                msg  : '网络请求超时.'
+                code: -1,
+                msg : '网络请求超时.'
             } )
         } )
 
         req.on( 'error', err => {
             reject( {
-                code : -1,
-                msg  : `网络请求失败, 失败原因:\n${err}`
+                code: -1,
+                msg : `网络请求失败, 失败原因:\n${err.code}`
             } )
         } )
 
