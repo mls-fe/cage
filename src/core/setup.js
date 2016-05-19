@@ -80,7 +80,7 @@ class Setup {
         Util.indicator.start()
 
         return new Promise( resolve => {
-            let command = `cd ${deptPath} && npm install ${DEPENDENCIES.join( ' ' )}`
+            let command = `cd ${deptPath} && npm install ${DEPENDENCIES.join( ' ' )} 	--registry=https://registry.npm.taobao.org`
             log( command, 'debug' )
             Exec( command, ( err, stdout ) => {
                 Util.indicator.stop()
