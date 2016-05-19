@@ -1,9 +1,4 @@
 {
-  "sourceMaps": "inline",
-  "presets": [
-    "stage-0",
-    "es2015"
-  ],
   "plugins": [
     [
       "transform-async-to-module-method",
@@ -11,6 +6,7 @@
         "module": "bluebird",
         "method": "coroutine"
       }
-    ]
+    ],
+    "transform-es2015-modules-commonjs"
   ]
 }
