@@ -4,8 +4,9 @@ let Exec    = require( 'child_process' ).exec,
     Util    = require( '../util' ),
     Profile = global.Profile
 
-const APPS = Const.APPS,
-      NEST = Const.NEST
+const APPS     = Const.APPS,
+      NEST     = Const.NEST,
+      HORNBILL = Const.HORNBILL
 
 class WorkSpace {
     constructor( path ) {
@@ -18,6 +19,10 @@ class WorkSpace {
             Util.checkFileExist( path + APPS ),
             Util.checkFileExist( path + NEST )
         ] ).then( results => {
+            if ( results && !results[ 0 ] ) {
+                return Promise
+                    .resolve( Util.checkFileExist( path + HORNBILL ) )
+            }
             return Promise.resolve( results.reduce( ( prev, cur ) => prev && cur ) )
         } )
     }
@@ -55,14 +60,27 @@ class WorkSpace {
         Profile.set( Key.current_path, path )
     }
 
+    static isNew( path ) {
+        return Util.checkFileExist( path + HORNBILL )
+    }
+
+    async getCommandPath( path ) {
+        let isNew = await WorkSpace.isNew( path )
+
+        return `${ path }${ isNew ? HORNBILL : NEST }/cmd/`
+    }
+
     active() {
         WorkSpace.setCurrentWorkSpace( this.basePath )
     }
 
     start( autoExit = true ) {
-        return new Promise( resolve => {
-            let path    = this.basePath,
-                command = `cd ${path}/nest/cmd && ./service2.sh restart`
+        return new Promise( async( resolve ) => {
+            let path, command
+
+            path = await this.getCommandPath( this.basePath )
+
+            command = `cd ${path} && ./service2.sh restart`
 
             log( command, 'debug' )
             Exec( command, err => err && log( err, 'error' ) )
@@ -81,10 +99,12 @@ class WorkSpace {
     }
 
     stop( all ) {
-        return new Promise( resolve => {
-            let path    = this.basePath,
-                isAll   = all == 'all' ? 'All' : '',
-                command = `cd ${path}/nest/cmd && ./service2.sh stop${isAll}`
+        return new Promise( async( resolve ) => {
+            let path, isAll, command
+
+            isAll   = all == 'all' ? 'All' : ''
+            path    = await this.getCommandPath( this.basePath )
+            command = `cd ${path} && ./service2.sh stop${isAll}`
 
             log( command, 'debug' )
             Exec( command, err => err && log( err, 'error' ) )

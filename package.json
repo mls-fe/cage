@@ -30,10 +30,12 @@
     "rimraf": "~2.5.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.7.5",
+    "babel-cli": "^6.10.1",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-plugin-transform-async-to-module-method": "^6.7.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
+    "babel-plugin-transform-es2015-parameters": "^6.9.0",
     "babel-preset-async-to-bluebird": "^1.0.0",
     "chai": "^3.5.0",
     "istanbul": "^0.4.3",
