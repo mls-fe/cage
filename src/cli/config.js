@@ -48,12 +48,13 @@ class ConfigCLI {
     configPort( next ) {
         Inquirer
             .prompt( [ {
-                type    : 'list',
-                name    : 'portOption',
-                message : '选择端口号',
-                choices : [ NORMAL, RANDOM ],
-                default : RANDOM
-            } ], answer => {
+                type   : 'list',
+                name   : 'portOption',
+                message: '选择端口号',
+                choices: [ NORMAL, RANDOM ],
+                default: RANDOM
+            } ] )
+            .then( answer => {
                 this.config.setPortOption( answer.portOption )
                 next()
             } )
@@ -67,12 +68,13 @@ class ConfigCLI {
         if ( domainsSize ) {
             Inquirer
                 .prompt( [ {
-                    type    : 'list',
-                    name    : 'override',
-                    message : '是否重新设置域名?',
-                    choices : [ YES, NO ],
-                    default : NO
-                } ], answer => {
+                    type   : 'list',
+                    name   : 'override',
+                    message: '是否重新设置域名?',
+                    choices: [ YES, NO ],
+                    default: NO
+                } ] )
+                .then( answer => {
                     if ( answer.override == YES ) {
                         c.clearDomains()
                         return this.configDomain( next )
@@ -88,13 +90,14 @@ class ConfigCLI {
     collectDomain( next ) {
         Inquirer
             .prompt( [ {
-                name    : 'domain',
-                message : '设置域名(输入 n 可跳过此步骤)',
+                name   : 'domain',
+                message: '设置域名(输入 n 可跳过此步骤)',
                 validate( domain ) {
                     domain = domain.trim()
                     return domain.split( ' ' ).length == 2 || domain == N
                 }
-            } ], answer => {
+            } ] )
+            .then( answer => {
                 let c           = this.config,
                     domain      = answer.domain.trim(),
                     domainArr   = domain.split( ' ' ),

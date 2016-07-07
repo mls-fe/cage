@@ -1,7 +1,8 @@
-let Key     = require( '../key' ),
-    Util    = require( '../util' ),
-    Const   = require( '../const' ),
-    Profile = global.Profile
+let Key       = require( '../key' ),
+    Util      = require( '../util' ),
+    Const     = require( '../const' ),
+    WorkSpace = require( './workspace' ),
+    Profile   = global.Profile
 
 const DOMAINS = Key.domains,
       RANDOM  = Key.random,
@@ -9,6 +10,9 @@ const DOMAINS = Key.domains,
 
 class Config {
     constructor( path ) {
+        WorkSpace.isNew( path ).then( isNew => {
+            isNew && Const.changeToNewPath( path )
+        } )
         this.param = { path }
     }
 

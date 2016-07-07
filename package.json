@@ -26,7 +26,7 @@
     "cfonts": "~0.0.13",
     "commander": "~2.9.0",
     "configstore": "~1.2.0",
-    "inquirer": "~1.0.2",
+    "inquirer": "^1.0.3",
     "rimraf": "~2.5.2"
   },
   "devDependencies": {

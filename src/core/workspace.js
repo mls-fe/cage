@@ -67,6 +67,8 @@ class WorkSpace {
     async getCommandPath( path ) {
         let isNew = await WorkSpace.isNew( path )
 
+        isNew && Const.changeToNewPath( path + HORNBILL )
+
         return `${ path }${ isNew ? HORNBILL : NEST }/cmd/`
     }
 
