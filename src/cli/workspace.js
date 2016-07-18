@@ -2,7 +2,7 @@ let Inquirer  = require( 'inquirer' ),
     WorkSpace = require( '../core/workspace' )
 
 module.exports = {
-    list() {
+    list( callback ) {
         let list = WorkSpace.list()
 
         if ( list.length ) {
@@ -17,6 +17,7 @@ module.exports = {
                 .then( ( answer ) => {
                     WorkSpace.setCurrentWorkSpace( answer.workspace )
                     log( '切换工作空间成功！' )
+                    callback && callback()
                 } )
         } else {
             log( '没有检测到工作空间，请使用 cage config 设置', 'warn' )

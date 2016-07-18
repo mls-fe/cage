@@ -28,6 +28,25 @@ let Commander          = require( 'commander' ),
             log( '无法找到可运行的工作空间', 'error' )
             throw new Error
         }
+    },
+
+    update             = async() => {
+        let config     = new Config( WorkSpace.current() ),
+            isIPChange = await config.isIPChange()
+
+        config.setPortOption( Key.random )
+        await config.updateProxy()
+        log( '端口更新成功', 'success' )
+
+        if ( isIPChange ) {
+            let result = await config.updateIP()
+            result && log( 'ip 更新成功', 'success' )
+        } else {
+            log( 'ip 无变化, 不需要更新' )
+        }
+
+        let result = await findValidWorkspace( process.cwd() )
+        new WorkSpace( result.dir ).start()
     }
 
 Commander
@@ -110,7 +129,11 @@ Commander
 Commander
     .command( 'ls' )
     .description( '显示工作空间列表' )
-    .action( () => WorkSpaceCLI.list() )
+    .action( () => {
+        WorkSpaceCLI.list( () => {
+            update()
+        } )
+    } )
 
 Commander
     .command( 'ip' )
@@ -132,24 +155,7 @@ Commander
     .command( 'update' )
     .description( '更新环境配置' )
     .alias( 'u' )
-    .action( async() => {
-        let config     = new Config( WorkSpace.current() ),
-            isIPChange = await config.isIPChange()
-
-        config.setPortOption( Key.random )
-        await config.updateProxy()
-        log( '端口更新成功', 'success' )
-
-        if ( isIPChange ) {
-            let result = await config.updateIP()
-            result && log( 'ip 更新成功', 'success' )
-        } else {
-            log( 'ip 无变化, 不需要更新' )
-        }
-
-        let result = await findValidWorkspace( process.cwd() )
-        new WorkSpace( result.dir ).start()
-    } )
+    .action( update )
 
 Commander
     .command( 'hostlist' )
