@@ -16,7 +16,14 @@ const RANDOM = Key.random,
       NORMAL = Key.normal,
       YES = '是',
       NO = '否',
-      N = 'n';
+      N = 'n',
+      HINT = `
+域名格式(例子):
+  xxx pc
+xxs 是你自定义的名字, 不要和其他人重复了
+pc 是业务名称, 目前可配置 pc、wap、www 等
+设置完毕后, 可以使用访问 http://xxx.fedevot.meilishuo.com
+`;
 
 class ConfigCLI {
     constructor(path) {
@@ -80,6 +87,7 @@ class ConfigCLI {
                 next();
             });
         } else {
+            console.log(HINT);
             this.collectDomain(next);
         }
     }
@@ -87,7 +95,7 @@ class ConfigCLI {
     collectDomain(next) {
         Inquirer.prompt([{
             name: 'domain',
-            message: '设置域名(输入 n 可跳过此步骤)',
+            message: '设置域名(输入 n 可跳过此步骤):',
             validate(domain) {
                 domain = domain.trim();
                 return domain.split(' ').length == 2 || domain == N;
