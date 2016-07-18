@@ -8,12 +8,13 @@ module.exports = {
         if ( list.length ) {
             Inquirer
                 .prompt( [ {
-                    type: 'list',
-                    name: 'workspace',
+                    type   : 'list',
+                    name   : 'workspace',
                     message: '工作空间列表',
                     choices: list,
                     default: WorkSpace.current()
-                } ], answer => {
+                } ] )
+                .then( ( answer ) => {
                     WorkSpace.setCurrentWorkSpace( answer.workspace )
                     log( '切换工作空间成功！' )
                 } )

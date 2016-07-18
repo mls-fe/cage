@@ -34,76 +34,79 @@ class SetupCLI {
 
     init() {
         Inquirer.prompt( [ {
-            name:    'dir',
+            name   : 'dir',
             message: '设置目录',
             default: this._dir || 'master'
-        } ], async answer => {
-            let path    = Path.resolve( answer.dir ),
-                isExist = false
+        } ] )
+            .then( async answer => {
+                let path    = Path.resolve( answer.dir ),
+                    isExist = false
 
-            try {
-                //https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification
-                isExist = await FS.statAsync( path )
-            } catch ( e ) {
-            }
+                try {
+                    //https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification
+                    isExist = await FS.statAsync( path )
+                } catch ( e ) {
+                }
 
-            this._path = path
+                this._path = path
 
-            log( `目录地址:${path}`, 'debug' )
+                log( `目录地址:${path}`, 'debug' )
 
-            if ( isExist ) {
-                this.cleanup()
-            } else {
-                this._setup = new Setup()
-                await this._setup.init( path )
-                this.checkout()
-            }
-        } )
+                if ( isExist ) {
+                    this.cleanup()
+                } else {
+                    this._setup = new Setup()
+                    await this._setup.init( path )
+                    this.checkout()
+                }
+            } )
     }
 
     checkout() {
         Inquirer.prompt( [ {
-            name:     USERNAME,
-            message:  'SVN 用户名',
-            default:  Profile.get( USERNAME ) || '',
+            name    : USERNAME,
+            message : 'SVN 用户名',
+            default : Profile.get( USERNAME ) || '',
             validate: notNull
         }, {
-            type:     PASSWORD,
-            name:     PASSWORD,
-            message:  'SVN 密码',
+            type    : PASSWORD,
+            name    : PASSWORD,
+            message : 'SVN 密码',
             validate: notNull
-        } ], async answer => {
-            let username = answer[ USERNAME ],
-                password = answer[ PASSWORD ]
+        } ] )
+            .then( async answer => {
+                let username = answer[ USERNAME ],
+                    password = answer[ PASSWORD ]
 
-            Profile.set( USERNAME, username )
-            await this._setup.checkoutSource( username, password, this._url )
-            new ConfigCLI( this._path )
-        } )
+                Profile.set( USERNAME, username )
+                await this._setup.checkoutSource( username, password, this._url )
+                new ConfigCLI( this._path )
+            } )
     }
 
     cleanup() {
         Inquirer.prompt( [ {
-            type:    'list',
-            name:    'override',
+            type   : 'list',
+            name   : 'override',
             message: '文件夹已存在，是否覆盖',
             choices: [ YES, NO ],
             default: NO
-        } ], answer => {
-            let path = this._path
+        } ] )
+            .then( answer => {
+                let path = this._path
 
-            if ( answer.override === YES ) {
-                Rimraf( path, async err => {
-                    if ( !err ) {
-                        this._setup = new Setup()
-                        await this._setup.init( path )
-                        this.checkout()
-                    }
-                } )
-            } else {
-                new ConfigCLI( path )
-            }
-        } )
+                if ( answer.override === YES ) {
+                    Rimraf( path, async err => {
+                        if ( !err ) {
+                            this._setup = new Setup()
+                            await this._setup.init( path )
+                            this.checkout()
+                        }
+                    } )
+                } else {
+                    new ConfigCLI( path )
+                }
+            } )
     }
 }
 

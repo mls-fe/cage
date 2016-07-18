@@ -31,6 +31,7 @@ pc 是业务名称, 目前可配置 pc、wap、www 等
 class ConfigCLI {
     constructor( path ) {
         this.init( Path.resolve( path ) )
+        this._domains = []
     }
 
     async init( path ) {
@@ -108,18 +109,18 @@ class ConfigCLI {
             .then( answer => {
                 let c           = this.config,
                     domain      = answer.domain.trim(),
-                    domainArr   = domain.split( ' ' ),
-                    domainsSize = c.getDomainsSize()
+                    domainArr   = domain.split( ' ' )
 
                 if ( domain == N ) {
-                    if ( domainsSize ) {
+                    if ( this._domains.length ) {
+                        c.addDomain( this._domains )
                         next()
                     } else {
                         log( '至少需要配置一个域名', 'warn' )
                         this.collectDomain( next )
                     }
                 } else {
-                    c.addDomain( domainArr )
+                    this._domains.push( domainArr )
                     return this.collectDomain( next )
                 }
             } )

@@ -11,6 +11,7 @@ const DOMAINS = Key.domains,
 class Config {
     constructor( path ) {
         WorkSpace.isNew( path ).then( isNew => {
+            this.isNew = isNew
             isNew && Const.changeToNewPath( path )
         } )
         this.param = { path }
@@ -37,8 +38,9 @@ class Config {
     }
 
     async generatePort() {
-        let ip   = Profile.get( IP ),
-            path = this.getPath(),
+        let ip    = Profile.get( IP ),
+            path  = this.getPath(),
+            isNew = this.isNew,
             port, url
 
         if ( this.getPortOption() == RANDOM ) {
@@ -48,8 +50,8 @@ class Config {
             url = `http://${ip}:${port + 1}/`
 
             await Util.updateJSONFile( path + Const.FILE_SITE, {
-                'JCSTATIC_BASE'  : url + 'pc/',
-                'M_JCSTATIC_BASE': url + 'wap/'
+                'JCSTATIC_BASE'  : isNew ? ( url + 'pc/' ) : url,
+                'M_JCSTATIC_BASE': isNew ? ( url + 'wap/' ) : url
             } )
 
             await Util.updateJSONFile( path + Const.FILE_ETC, {
@@ -62,20 +64,22 @@ class Config {
         }
     }
 
-    addDomain( domain ) {
+    addDomain( domains ) {
         let param      = this.param,
             domainsObj = param.domainsObj,
-            domains    = param.domains
+            ds         = param.domains
 
-        let [ key, value ] = domain
+        domains.forEach( ( domain ) => {
+            let [ key, value ] = domain
 
-        if ( !(key in domainsObj ) ) {
             domainsObj[ key ] = value
-            domains.push( {
+
+            ds.push( {
                 key, value
             } )
-            Profile.set( DOMAINS, domainsObj )
-        }
+        } )
+
+        Profile.set( DOMAINS, domainsObj )
     }
 
     getSavedDomains() {
@@ -120,8 +124,9 @@ class Config {
     }
 
     async updateIP() {
-        let mac = await Util.getMac(),
-            res = await Util.updateMac( mac )
+        let mac   = await Util.getMac(),
+            res   = await Util.updateMac( mac ),
+            isNew = this.isNew
 
         if ( res ) {
             let port = Util.getPort( this.getPath() ) + 1,
@@ -129,8 +134,8 @@ class Config {
                 url  = `http://${ip}:${port}/`
 
             await Util.updateJSONFile( this.getPath() + Const.FILE_SITE, {
-                'JCSTATIC_BASE'  : url,
-                'M_JCSTATIC_BASE': url
+                'JCSTATIC_BASE'  : isNew ? ( url + 'pc/' ) : url,
+                'M_JCSTATIC_BASE': isNew ? ( url + 'wap/' ) : url
             } )
 
             Profile.set( IP, this.param.ip )
