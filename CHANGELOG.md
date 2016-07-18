@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2016-07-18, Version 2.2.0
+
+### Improvement
+
+- adapt to hornbill's newest version.
+
 ## 2016-05-10, Version 2.1.0
 
 ### Improvement
