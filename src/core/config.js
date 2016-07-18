@@ -48,8 +48,8 @@ class Config {
             url = `http://${ip}:${port + 1}/`
 
             await Util.updateJSONFile( path + Const.FILE_SITE, {
-                'JCSTATIC_BASE'  : url,
-                'M_JCSTATIC_BASE': url
+                'JCSTATIC_BASE'  : url + 'pc/',
+                'M_JCSTATIC_BASE': url + 'wap/'
             } )
 
             await Util.updateJSONFile( path + Const.FILE_ETC, {
