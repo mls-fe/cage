@@ -1,15 +1,25 @@
 'use strict';
 
-var DIR_CONFIG = '/nest/server/config';
+let DIR_CONFIG = '/nest/server/config',
+    obj;
 
-module.exports = {
+module.exports = obj = {
     APPS: '/apps',
     NEST: '/nest',
-    FILE_ETC: DIR_CONFIG + '/etc.json',
-    FILE_SITE: DIR_CONFIG + '/site.json',
-    FILE_VHOST: DIR_CONFIG + '/virtual_host.json',
+    HORNBILL: '/hornbill',
+    FILE_ETC: `${ DIR_CONFIG }/etc.json`,
+    FILE_SITE: `${ DIR_CONFIG }/site.json`,
+    FILE_VHOST: `${ DIR_CONFIG }/virtual_host.json`,
     FILE_SERVICE: '/nest/jserver/config/service.json',
     SITE_SUFFIX: '.fedevot.meilishuo.com',
-    URL_SERVER: 'rabbit.fedevot.meilishuo.com'
+    URL_SERVER: 'rabbit.fedevot.meilishuo.com',
+
+    changeToNewPath() {
+        let path = `${ obj.HORNBILL }/server/config`;
+
+        obj.FILE_ETC = `${ path }/etc.json`;
+        obj.FILE_SITE = `${ path }/site.json`;
+        obj.FILE_VHOST = `${ path }/virtual_host.json`;
+        obj.FILE_SERVICE = '/hornbill/jserver/config/service.json';
+    }
 };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9jb25zdC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLElBQUksYUFBYSxxQkFBakI7O0FBRUEsT0FBTyxPQUFQLEdBQWlCO0FBQ2IsVUFBZSxPQURGO0FBRWIsVUFBZSxPQUZGO0FBR2IsY0FBa0IsVUFBbEIsY0FIYTtBQUliLGVBQWtCLFVBQWxCLGVBSmE7QUFLYixnQkFBa0IsVUFBbEIsdUJBTGE7QUFNYixrQkFBZSxtQ0FORjtBQU9iLGlCQUFlLHdCQVBGO0FBUWIsZ0JBQWU7QUFSRixDQUFqQiIsImZpbGUiOiJjb25zdC5qcyIsInNvdXJjZXNDb250ZW50IjpbImxldCBESVJfQ09ORklHID0gJy9uZXN0L3NlcnZlci9jb25maWcnXG5cbm1vZHVsZS5leHBvcnRzID0ge1xuICAgIEFQUFMgICAgICAgICA6ICcvYXBwcycsXG4gICAgTkVTVCAgICAgICAgIDogJy9uZXN0JyxcbiAgICBGSUxFX0VUQyAgICAgOiBgJHtESVJfQ09ORklHfS9ldGMuanNvbmAsXG4gICAgRklMRV9TSVRFICAgIDogYCR7RElSX0NPTkZJR30vc2l0ZS5qc29uYCxcbiAgICBGSUxFX1ZIT1NUICAgOiBgJHtESVJfQ09ORklHfS92aXJ0dWFsX2hvc3QuanNvbmAsXG4gICAgRklMRV9TRVJWSUNFIDogJy9uZXN0L2pzZXJ2ZXIvY29uZmlnL3NlcnZpY2UuanNvbicsXG4gICAgU0lURV9TVUZGSVggIDogJy5mZWRldm90Lm1laWxpc2h1by5jb20nLFxuICAgIFVSTF9TRVJWRVIgICA6ICdyYWJiaXQuZmVkZXZvdC5tZWlsaXNodW8uY29tJ1xufVxuIl19
