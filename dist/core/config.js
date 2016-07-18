@@ -17,6 +17,7 @@ const DOMAINS = Key.domains,
 class Config {
     constructor(path) {
         WorkSpace.isNew(path).then(isNew => {
+            this.isNew = isNew;
             isNew && Const.changeToNewPath(path);
         });
         this.param = { path };
@@ -48,6 +49,7 @@ class Config {
         return (0, _bluebird.coroutine)(function* () {
             let ip = Profile.get(IP),
                 path = _this.getPath(),
+                isNew = _this.isNew,
                 port,
                 url;
 
@@ -58,8 +60,8 @@ class Config {
                 url = `http://${ ip }:${ port + 1 }/`;
 
                 yield Util.updateJSONFile(path + Const.FILE_SITE, {
-                    'JCSTATIC_BASE': url + 'pc/',
-                    'M_JCSTATIC_BASE': url + 'wap/'
+                    'JCSTATIC_BASE': isNew ? url + 'pc/' : url,
+                    'M_JCSTATIC_BASE': isNew ? url + 'wap/' : url
                 });
 
                 yield Util.updateJSONFile(path + Const.FILE_ETC, {
@@ -73,24 +75,26 @@ class Config {
         })();
     }
 
-    addDomain(domain) {
+    addDomain(domains) {
         let param = this.param,
             domainsObj = param.domainsObj,
-            domains = param.domains;
+            ds = param.domains;
 
-        var _domain = _slicedToArray(domain, 2);
+        domains.forEach(domain => {
+            var _domain = _slicedToArray(domain, 2);
 
-        let key = _domain[0];
-        let value = _domain[1];
+            let key = _domain[0];
+            let value = _domain[1];
 
 
-        if (!(key in domainsObj)) {
             domainsObj[key] = value;
-            domains.push({
+
+            ds.push({
                 key, value
             });
-            Profile.set(DOMAINS, domainsObj);
-        }
+        });
+
+        Profile.set(DOMAINS, domainsObj);
     }
 
     getSavedDomains() {
@@ -143,7 +147,8 @@ class Config {
 
         return (0, _bluebird.coroutine)(function* () {
             let mac = yield Util.getMac(),
-                res = yield Util.updateMac(mac);
+                res = yield Util.updateMac(mac),
+                isNew = _this3.isNew;
 
             if (res) {
                 let port = Util.getPort(_this3.getPath()) + 1,
@@ -151,8 +156,8 @@ class Config {
                     url = `http://${ ip }:${ port }/`;
 
                 yield Util.updateJSONFile(_this3.getPath() + Const.FILE_SITE, {
-                    'JCSTATIC_BASE': url,
-                    'M_JCSTATIC_BASE': url
+                    'JCSTATIC_BASE': isNew ? url + 'pc/' : url,
+                    'M_JCSTATIC_BASE': isNew ? url + 'wap/' : url
                 });
 
                 Profile.set(IP, _this3.param.ip);

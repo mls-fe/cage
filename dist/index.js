@@ -36,6 +36,29 @@ let Commander = require('commander'),
     return function findValidWorkspace(_x) {
         return ref.apply(this, arguments);
     };
+})(),
+    update = (() => {
+    var ref = (0, _bluebird.coroutine)(function* () {
+        let config = new Config(WorkSpace.current()),
+            isIPChange = yield config.isIPChange();
+
+        config.setPortOption(Key.random);
+        yield config.updateProxy();
+        log('端口更新成功', 'success');
+
+        if (isIPChange) {
+            let result = yield config.updateIP();
+            result && log('ip 更新成功', 'success');
+        } else {
+            log('ip 无变化, 不需要更新');
+        }
+
+        let result = yield findValidWorkspace(process.cwd());
+        new WorkSpace(result.dir).start();
+    });
+    return function update() {
+        return ref.apply(this, arguments);
+    };
 })();
 
 Commander.version(pkg.version, '-v, --version');
@@ -108,7 +131,11 @@ Commander.command('lo').description('打开日志所在位置').action(() => {
     Exec('open -a finder "/tmp/log/nest-server/"').on('error', err => log(err, 'error'));
 });
 
-Commander.command('ls').description('显示工作空间列表').action(() => WorkSpaceCLI.list());
+Commander.command('ls').description('显示工作空间列表').action(() => {
+    WorkSpaceCLI.list(() => {
+        update();
+    });
+});
 
 Commander.command('ip').description('显示本机 IP 地址').action((0, _bluebird.coroutine)(function* () {
     var ip = yield Util.getIP();
@@ -120,24 +147,7 @@ Commander.command('mac').description('显示本机 Mac 地址').action((0, _blue
     log(mac);
 }));
 
-Commander.command('update').description('更新环境配置').alias('u').action((0, _bluebird.coroutine)(function* () {
-    let config = new Config(WorkSpace.current()),
-        isIPChange = yield config.isIPChange();
-
-    config.setPortOption(Key.random);
-    yield config.updateProxy();
-    log('端口更新成功', 'success');
-
-    if (isIPChange) {
-        let result = yield config.updateIP();
-        result && log('ip 更新成功', 'success');
-    } else {
-        log('ip 无变化, 不需要更新');
-    }
-
-    let result = yield findValidWorkspace(process.cwd());
-    new WorkSpace(result.dir).start();
-}));
+Commander.command('update').description('更新环境配置').alias('u').action(update);
 
 Commander.command('hostlist').description('显示你配置过的域名列表').action((0, _bluebird.coroutine)(function* () {
     var mac = yield Util.getMac(),

@@ -1,5 +1,16 @@
 # Cage ChangeLog
 
+## 2016-07-18, Version 2.2.3
+
+## Improvement
+
+- change workspace will trigger update.
+
+## Fix
+
+- fix Inquirer's invoke problem.
+- correctly update config file
+
 ## 2016-07-18, Version 2.2.0
 
 ### Improvement

@@ -43,7 +43,7 @@ class SetupCLI {
             name: 'dir',
             message: '设置目录',
             default: this._dir || 'master'
-        }], (() => {
+        }]).then((() => {
             var ref = (0, _bluebird.coroutine)(function* (answer) {
                 let path = Path.resolve(answer.dir),
                     isExist = false;
@@ -84,7 +84,7 @@ class SetupCLI {
             name: PASSWORD,
             message: 'SVN 密码',
             validate: notNull
-        }], (() => {
+        }]).then((() => {
             var ref = (0, _bluebird.coroutine)(function* (answer) {
                 let username = answer[USERNAME],
                     password = answer[PASSWORD];
@@ -108,7 +108,7 @@ class SetupCLI {
             message: '文件夹已存在，是否覆盖',
             choices: [YES, NO],
             default: NO
-        }], answer => {
+        }]).then(answer => {
             let path = this._path;
 
             if (answer.override === YES) {
