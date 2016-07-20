@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2016-07-20, Version 2.2.4
+
+## Fix
+
+- fix log file's path
+
 ## 2016-07-18, Version 2.2.3
 
 ## Improvement
