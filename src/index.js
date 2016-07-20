@@ -101,8 +101,10 @@ Commander
 
                 client.stdout.pipe( process.stdout )
             }
-            let filepath   = `/tmp/log/nest-${type}erver/${Util.getFormatDate()}.log`,
-                isExist    = await Util.checkFileExist( filepath )
+
+            let isNew    = await WorkSpace.isNew( WorkSpace.current() ),
+                filepath = `/tmp/log/${ isNew ? 'hornbill' : 'nest' }-${type}erver/${Util.getFormatDate()}.log`,
+                isExist  = await Util.checkFileExist( filepath )
 
             if ( isExist ) {
                 displayLog()
