@@ -108,7 +108,9 @@ Commander.command('log [type]').description('显示日志').alias('l').action(((
 
                 client.stdout.pipe(process.stdout);
             };
-            let filepath = `/tmp/log/nest-${ type }erver/${ Util.getFormatDate() }.log`,
+
+            let isNew = yield WorkSpace.isNew(WorkSpace.current()),
+                filepath = `/tmp/log/${ isNew ? 'hornbill' : 'nest' }-${ type }erver/${ Util.getFormatDate() }.log`,
                 isExist = yield Util.checkFileExist(filepath);
 
             if (isExist) {
