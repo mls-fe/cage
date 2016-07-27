@@ -49,18 +49,29 @@ class Config {
 
             url = `http://${ip}:${port + 1}/`
 
-            await Util.updateJSONFile( path + Const.FILE_SITE, {
-                'JCSTATIC_BASE'  : isNew ? ( url + 'pc/' ) : url,
-                'M_JCSTATIC_BASE': isNew ? ( url + 'wap/' ) : url
-            } )
+            if ( isNew ) {
+                await Util.updateRuntimeConfig( path, ( data ) => {
+                    debugger
+                    data.site.JCSTATIC_BASE   = url + 'pc/'
+                    data.site.M_JCSTATIC_BASE = url + 'wap/'
+                    data.etc.onPort           = port
+                    data.service.onPort       = port + 1
+                    return data
+                } )
+            } else {
+                await Util.updateJSONFile( path + Const.FILE_SITE, {
+                    'JCSTATIC_BASE'  : url,
+                    'M_JCSTATIC_BASE': url
+                } )
 
-            await Util.updateJSONFile( path + Const.FILE_ETC, {
-                onPort: port
-            } )
+                await Util.updateJSONFile( path + Const.FILE_ETC, {
+                    onPort: port
+                } )
 
-            await Util.updateJSONFile( path + Const.FILE_SERVICE, {
-                onPort: port + 1
-            } )
+                await Util.updateJSONFile( path + Const.FILE_SERVICE, {
+                    onPort: port + 1
+                } )
+            }
         }
     }
 
@@ -133,10 +144,14 @@ class Config {
                 ip   = this.param.ip,
                 url  = `http://${ip}:${port}/`
 
-            await Util.updateJSONFile( this.getPath() + Const.FILE_SITE, {
-                'JCSTATIC_BASE'  : isNew ? ( url + 'pc/' ) : url,
-                'M_JCSTATIC_BASE': isNew ? ( url + 'wap/' ) : url
-            } )
+            if ( isNew ) {
+
+            } else {
+                await Util.updateJSONFile( this.getPath() + Const.FILE_SITE, {
+                    'JCSTATIC_BASE'  : isNew ? ( url + 'pc/' ) : url,
+                    'M_JCSTATIC_BASE': isNew ? ( url + 'wap/' ) : url
+                } )
+            }
 
             Profile.set( IP, this.param.ip )
             return true
@@ -158,7 +173,15 @@ class Config {
 
         port = this.getPort() || Util.getPort( this.getPath() )
 
-        await Util.updateJSONFile( this.getPath() + Const.FILE_VHOST, hosts )
+        if ( this.isNew ) {
+            await Util.updateRuntimeConfig( this.getPath(), ( data ) => {
+                data.virtualHost = hosts
+                return data
+            } )
+        } else {
+            await Util.updateJSONFile( this.getPath() + Const.FILE_VHOST, hosts )
+        }
+
         await Util.updateProxy( port, hostParam.join( '&' ) )
     }
 }
