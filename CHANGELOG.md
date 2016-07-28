@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2016-07-28, Version 2.3.0
+
+## Improvement
+
+- adopt new config scheme.
+
 ## 2016-07-20, Version 2.2.4
 
 ## Fix
