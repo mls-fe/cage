@@ -51,7 +51,6 @@ class Config {
 
             if ( isNew ) {
                 await Util.updateRuntimeConfig( path, ( data ) => {
-                    debugger
                     data.site.JCSTATIC_BASE   = url + 'pc/'
                     data.site.M_JCSTATIC_BASE = url + 'wap/'
                     data.etc.onPort           = port
