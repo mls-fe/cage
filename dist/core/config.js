@@ -59,18 +59,28 @@ class Config {
 
                 url = `http://${ ip }:${ port + 1 }/`;
 
-                yield Util.updateJSONFile(path + Const.FILE_SITE, {
-                    'JCSTATIC_BASE': isNew ? url + 'pc/' : url,
-                    'M_JCSTATIC_BASE': isNew ? url + 'wap/' : url
-                });
+                if (isNew) {
+                    yield Util.updateRuntimeConfig(path, function (data) {
+                        data.site.JCSTATIC_BASE = url + 'pc/';
+                        data.site.M_JCSTATIC_BASE = url + 'wap/';
+                        data.etc.onPort = port;
+                        data.service.onPort = port + 1;
+                        return data;
+                    });
+                } else {
+                    yield Util.updateJSONFile(path + Const.FILE_SITE, {
+                        'JCSTATIC_BASE': url,
+                        'M_JCSTATIC_BASE': url
+                    });
 
-                yield Util.updateJSONFile(path + Const.FILE_ETC, {
-                    onPort: port
-                });
+                    yield Util.updateJSONFile(path + Const.FILE_ETC, {
+                        onPort: port
+                    });
 
-                yield Util.updateJSONFile(path + Const.FILE_SERVICE, {
-                    onPort: port + 1
-                });
+                    yield Util.updateJSONFile(path + Const.FILE_SERVICE, {
+                        onPort: port + 1
+                    });
+                }
             }
         })();
     }
@@ -155,10 +165,12 @@ class Config {
                     ip = _this3.param.ip,
                     url = `http://${ ip }:${ port }/`;
 
-                yield Util.updateJSONFile(_this3.getPath() + Const.FILE_SITE, {
-                    'JCSTATIC_BASE': isNew ? url + 'pc/' : url,
-                    'M_JCSTATIC_BASE': isNew ? url + 'wap/' : url
-                });
+                if (isNew) {} else {
+                    yield Util.updateJSONFile(_this3.getPath() + Const.FILE_SITE, {
+                        'JCSTATIC_BASE': isNew ? url + 'pc/' : url,
+                        'M_JCSTATIC_BASE': isNew ? url + 'wap/' : url
+                    });
+                }
 
                 Profile.set(IP, _this3.param.ip);
                 return true;
@@ -184,7 +196,15 @@ class Config {
 
             port = _this4.getPort() || Util.getPort(_this4.getPath());
 
-            yield Util.updateJSONFile(_this4.getPath() + Const.FILE_VHOST, hosts);
+            if (_this4.isNew) {
+                yield Util.updateRuntimeConfig(_this4.getPath(), function (data) {
+                    data.virtualHost = hosts;
+                    return data;
+                });
+            } else {
+                yield Util.updateJSONFile(_this4.getPath() + Const.FILE_VHOST, hosts);
+            }
+
             yield Util.updateProxy(port, hostParam.join('&'));
         })();
     }

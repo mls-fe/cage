@@ -13,6 +13,9 @@ module.exports = obj = {
     FILE_SERVICE: '/nest/jserver/config/service.json',
     SITE_SUFFIX: '.fedevot.meilishuo.com',
     URL_SERVER: 'rabbit.fedevot.meilishuo.com',
+    RUNTIME_CONFIG: '/hornbill/.config/rc.json',
+    DEV_CONFIG: '/hornbill/config/dev.conf.js',
+    CONFIG_DIR: '/hornbill/.config',
 
     changeToNewPath() {
         let path = `${ obj.HORNBILL }/server/config`;

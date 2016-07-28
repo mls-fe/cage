@@ -153,5 +153,35 @@ module.exports = Util = {
         date = date.length > 1 ? date : '0' + date;
 
         return `${ year }/${ month }/${ date }`;
+    },
+
+    /**
+     * 更新运行时配置
+     * 如果配置文件不存在, 默认读取 dev.conf.js
+     */
+    updateRuntimeConfig(path, fn) {
+        var _this2 = this;
+
+        return (0, _bluebird.coroutine)(function* () {
+            let isExist = yield _this2.checkFileExist(path + Const.RUNTIME_CONFIG);
+
+            let data;
+
+            if (!isExist) {
+                data = require(path + Const.DEV_CONFIG);
+                let isDirExist = yield _this2.checkFileExist(path + Const.CONFIG_DIR);
+
+                if (!isDirExist) {
+                    FS.mkdirSync(path + Const.CONFIG_DIR);
+                }
+                FS.writeFileSync(path + Const.RUNTIME_CONFIG, JSON.stringify(data));
+            } else {
+                data = require(path + Const.RUNTIME_CONFIG);
+            }
+
+            data = fn(data);
+
+            _this2.updateJSONFile(path + Const.RUNTIME_CONFIG, data);
+        })();
     }
 };
