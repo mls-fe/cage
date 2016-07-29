@@ -89,7 +89,7 @@ class WorkSpace {
 
                 path = yield _this.getCommandPath(_this.basePath);
 
-                command = `cd ${ path } && ./service2.sh restart`;
+                command = `cd ${ path } && ./service3.sh restart`;
 
                 log(command, 'debug');
                 Exec(command, function (err) {
@@ -121,7 +121,7 @@ class WorkSpace {
 
                 isAll = all == 'all' ? 'All' : '';
                 path = yield _this2.getCommandPath(_this2.basePath);
-                command = `cd ${ path } && ./service2.sh stop${ isAll }`;
+                command = `cd ${ path } && ./service3.sh stop${ isAll }`;
 
                 log(command, 'debug');
                 Exec(command, function (err) {

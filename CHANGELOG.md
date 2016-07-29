@@ -1,5 +1,11 @@
 # Cage ChangeLog
 
+## 2016-07-29, Version 2.3.1
+
+## Improvement
+
+- use new shell script
+
 ## 2016-07-28, Version 2.3.0
 
 ## Improvement
