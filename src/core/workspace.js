@@ -80,9 +80,10 @@ class WorkSpace {
         return new Promise( async( resolve ) => {
             let path, command
 
-            path = await this.getCommandPath( this.basePath )
+            path      = await this.getCommandPath( this.basePath )
+            let isNew = await WorkSpace.isNew( this.basePath )
 
-            command = `cd ${path} && ./service3.sh restart`
+            command = `cd ${path} && ./service${ isNew ? 3 : 2 }.sh restart`
 
             log( command, 'debug' )
             Exec( command, err => err && log( err, 'error' ) )
@@ -104,9 +105,10 @@ class WorkSpace {
         return new Promise( async( resolve ) => {
             let path, isAll, command
 
-            isAll   = all == 'all' ? 'All' : ''
-            path    = await this.getCommandPath( this.basePath )
-            command = `cd ${path} && ./service3.sh stop${isAll}`
+            isAll     = all == 'all' ? 'All' : ''
+            let isNew = await WorkSpace.isNew( this.basePath )
+            path      = await this.getCommandPath( this.basePath )
+            command   = `cd ${path} && ./service${ isNew ? 3 : 2 }.sh stop${isAll}`
 
             log( command, 'debug' )
             Exec( command, err => err && log( err, 'error' ) )

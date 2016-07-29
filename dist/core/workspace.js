@@ -88,8 +88,9 @@ class WorkSpace {
                 let path, command;
 
                 path = yield _this.getCommandPath(_this.basePath);
+                let isNew = yield WorkSpace.isNew(_this.basePath);
 
-                command = `cd ${ path } && ./service3.sh restart`;
+                command = `cd ${ path } && ./service${ isNew ? 3 : 2 }.sh restart`;
 
                 log(command, 'debug');
                 Exec(command, function (err) {
@@ -120,8 +121,9 @@ class WorkSpace {
                 let path, isAll, command;
 
                 isAll = all == 'all' ? 'All' : '';
+                let isNew = yield WorkSpace.isNew(_this2.basePath);
                 path = yield _this2.getCommandPath(_this2.basePath);
-                command = `cd ${ path } && ./service3.sh stop${ isAll }`;
+                command = `cd ${ path } && ./service${ isNew ? 3 : 2 }.sh stop${ isAll }`;
 
                 log(command, 'debug');
                 Exec(command, function (err) {

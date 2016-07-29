@@ -1,10 +1,14 @@
 # Cage ChangeLog
 
-## 2016-07-29, Version 2.3.1
+## 2016-07-29, Version 2.3.2
 
 ## Improvement
 
 - use new shell script
+
+## Fix
+
+- fix old project's script name
 
 ## 2016-07-28, Version 2.3.0
 
