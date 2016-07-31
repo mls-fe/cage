@@ -34,9 +34,11 @@ let Commander          = require( 'commander' ),
         let config     = new Config( WorkSpace.current() ),
             isIPChange = await config.isIPChange()
 
-        config.setPortOption( Key.random )
-        await config.updateProxy()
-        log( '端口更新成功', 'success' )
+        if ( !config.isNew ) {
+            config.setPortOption( Key.random )
+            await config.updateProxy()
+            log( '端口更新成功', 'success' )
+        }
 
         if ( isIPChange ) {
             let result = await config.updateIP()
