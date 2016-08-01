@@ -92,7 +92,17 @@ module.exports = Util = {
     },
 
     getPort(basePath) {
-        return require(basePath + Const.FILE_ETC).onPort;
+        var _this = this;
+
+        return (0, _bluebird.coroutine)(function* () {
+            let isExist = yield _this.checkFileExist(basePath + Const.FILE_ETC);
+
+            if (isExist) {
+                return require(basePath + Const.FILE_ETC).onPort;
+            } else {
+                return require(basePath + Const.RUNTIME_CONFIG).etc.port;
+            }
+        })();
     },
 
     getIP() {
@@ -135,10 +145,10 @@ module.exports = Util = {
     },
 
     updateProxy(port, params) {
-        var _this = this;
+        var _this2 = this;
 
         return (0, _bluebird.coroutine)(function* () {
-            let mac = yield _this.getMac();
+            let mac = yield _this2.getMac();
             return Request(`host?port=${ port }&ukey=${ mac }&${ params }`);
         })();
     },
@@ -160,16 +170,16 @@ module.exports = Util = {
      * 如果配置文件不存在, 默认读取 dev.conf.js
      */
     updateRuntimeConfig(path, fn) {
-        var _this2 = this;
+        var _this3 = this;
 
         return (0, _bluebird.coroutine)(function* () {
-            let isExist = yield _this2.checkFileExist(path + Const.RUNTIME_CONFIG);
+            let isExist = yield _this3.checkFileExist(path + Const.RUNTIME_CONFIG);
 
             let data;
 
             if (!isExist) {
                 data = require(path + Const.DEV_CONFIG);
-                let isDirExist = yield _this2.checkFileExist(path + Const.CONFIG_DIR);
+                let isDirExist = yield _this3.checkFileExist(path + Const.CONFIG_DIR);
 
                 if (!isDirExist) {
                     FS.mkdirSync(path + Const.CONFIG_DIR);
@@ -181,7 +191,7 @@ module.exports = Util = {
 
             data = fn(data);
 
-            _this2.updateJSONFile(path + Const.RUNTIME_CONFIG, data);
+            _this3.updateJSONFile(path + Const.RUNTIME_CONFIG, data);
         })();
     }
 };
