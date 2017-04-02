@@ -1,11 +1,11 @@
 'use strict';
 
-let Inquirer = require('inquirer'),
+var Inquirer = require('inquirer'),
     WorkSpace = require('../core/workspace');
 
 module.exports = {
     list(callback) {
-        let list = WorkSpace.list();
+        var list = WorkSpace.list();
 
         if (list.length) {
             Inquirer.prompt([{
@@ -14,7 +14,7 @@ module.exports = {
                 message: '工作空间列表',
                 choices: list,
                 default: WorkSpace.current()
-            }]).then(answer => {
+            }]).then(function (answer) {
                 WorkSpace.setCurrentWorkSpace(answer.workspace);
                 log('切换工作空间成功！');
                 callback && callback();

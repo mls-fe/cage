@@ -1,8 +1,8 @@
 'use strict';
 
-let CFonts = require('cfonts');
+var CFonts = require('cfonts');
 
-exports.yell = () => {
+exports.yell = function () {
     new CFonts({
         text: 'Cage',
         font: '3d',

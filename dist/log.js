@@ -1,7 +1,7 @@
 'use strict';
 
 //https://github.com/chalk/ansi-styles/blob/master/index
-let levels = [{
+var levels = [{
     name: 'info',
     color: 'white'
 }, {
@@ -29,14 +29,16 @@ let levels = [{
 },
     edge = '\u001b[',
     style = {},
-    helper = content => `${ edge }${ content }m`;
+    helper = function helper(content) {
+    return `${edge}${content}m`;
+};
 
-levels.forEach(level => {
-    let color = colors[level.color],
+levels.forEach(function (level) {
+    var color = colors[level.color],
         isBold = !!level.bold;
 
-    style[level.name] = content => {
-        let str = [content];
+    style[level.name] = function (content) {
+        var str = [content];
 
         str.unshift(helper(color[0]));
         str.push(helper(color[1]));
@@ -51,7 +53,7 @@ levels.forEach(level => {
 });
 
 global.log = function (content) {
-    let type = arguments.length <= 1 || arguments[1] === undefined ? 'info' : arguments[1];
+    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'info';
 
     if (type in style) {
         console.log(style[type](content));

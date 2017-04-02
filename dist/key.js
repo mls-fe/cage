@@ -1,9 +1,9 @@
 "use strict";
 
-let KeyMirror = obj => {
+var KeyMirror = function KeyMirror(obj) {
     var ret = {};
 
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach(function (key) {
         ret[key] = key;
     });
 
