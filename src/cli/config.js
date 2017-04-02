@@ -143,7 +143,8 @@ class ConfigCLI {
             Indicator.stop()
 
             if ( !isOK ) {
-                log( `如果曾经更换过硬盘, 那么需要在服务器端重新配置新硬盘的 mac 地址.`, 'error' )
+                await c.generatePort()
+                log( `你当前所在的网络无法连接到服务器，已经切换到本地模式。请使用 127.0.0.1 加上对应端口号来访问。`, 'error' )
                 return
             }
         } else {

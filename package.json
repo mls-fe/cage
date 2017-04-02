@@ -30,6 +30,7 @@
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-plugin-transform-async-to-module-method": "^6.7.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-async-to-bluebird": "^1.0.0",
     "babel-preset-env": "^1.2.1"
   }
