@@ -1,6 +1,6 @@
 {
   "name": "cage",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "whornbill environment utility.",
   "bin": "bin/index.js",
   "keywords": [
@@ -20,6 +20,7 @@
     "node": ">=4.4.7"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "bluebird": "^3.5.0",
     "cfonts": "^1.1.1",
     "commander": "^2.9.0",
@@ -30,7 +31,6 @@
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-plugin-transform-async-to-module-method": "^6.7.0",
-    "babel-polyfill": "^6.23.0",
     "babel-preset-async-to-bluebird": "^1.0.0",
     "babel-preset-env": "^1.2.1"
   }
