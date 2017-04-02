@@ -80,13 +80,7 @@ module.exports = Util = {
     },
 
     async getPort( basePath ) {
-        let isExist = await this.checkFileExist( basePath + Const.FILE_ETC )
-
-        if ( isExist ) {
-            return require( basePath + Const.FILE_ETC ).onPort
-        } else {
-            return require( basePath + Const.RUNTIME_CONFIG ).etc.port
-        }
+        return require( basePath + Const.RUNTIME_CONFIG ).etc.port
     },
 
     async getIP() {

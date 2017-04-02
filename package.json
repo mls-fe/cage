@@ -1,6 +1,6 @@
 {
   "name": "cage",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "description": "whornbill environment utility.",
   "bin": "bin/index.js",
   "keywords": [
@@ -10,35 +10,27 @@
   ],
   "scripts": {
     "build": "babel src -w -d build",
-    "dist": "babel src -d dist",
-    "test": "mocha ./test",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha ./test"
+    "dist": "babel src -d dist"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/mls-fe/cage.git"
   },
   "engines": {
-    "node": ">=4.2.1"
+    "node": ">=4.4.7"
   },
   "dependencies": {
-    "bluebird": "~3.3.5",
-    "cfonts": "~0.0.13",
-    "commander": "~2.9.0",
-    "configstore": "~1.2.0",
-    "inquirer": "^1.0.3",
-    "rimraf": "~2.5.2"
+    "bluebird": "^3.5.0",
+    "cfonts": "^1.1.1",
+    "commander": "^2.9.0",
+    "configstore": "^3.0.0",
+    "inquirer": "^3.0.6",
+    "rimraf": "^2.6.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-core": "^6.24.0",
     "babel-plugin-transform-async-to-module-method": "^6.7.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
-    "babel-plugin-transform-es2015-parameters": "^6.9.0",
     "babel-preset-async-to-bluebird": "^1.0.0",
-    "chai": "^3.5.0",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5"
+    "babel-preset-env": "^1.2.1"
   }
 }

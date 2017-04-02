@@ -4,9 +4,7 @@ let Exec    = require( 'child_process' ).exec,
     Util    = require( '../util' ),
     Profile = global.Profile
 
-const APPS     = Const.APPS,
-      NEST     = Const.NEST,
-      HORNBILL = Const.HORNBILL
+const HORNBILL = Const.HORNBILL
 
 class WorkSpace {
     constructor( path ) {
@@ -15,16 +13,7 @@ class WorkSpace {
 
     // path 是否为有效的工作空间
     static isValidWorkSpace( path ) {
-        return Promise.all( [
-            Util.checkFileExist( path + APPS ),
-            Util.checkFileExist( path + NEST )
-        ] ).then( results => {
-            if ( results && !results[ 0 ] ) {
-                return Promise
-                    .resolve( Util.checkFileExist( path + HORNBILL ) )
-            }
-            return Promise.resolve( results.reduce( ( prev, cur ) => prev && cur ) )
-        } )
+        return Promise.resolve( Util.checkFileExist( path + HORNBILL ) )
     }
 
     // 获取当前工作空间
@@ -65,11 +54,7 @@ class WorkSpace {
     }
 
     async getCommandPath( path ) {
-        let isNew = await WorkSpace.isNew( path )
-
-        isNew && Const.changeToNewPath( path + HORNBILL )
-
-        return `${ path }${ isNew ? HORNBILL : NEST }/cmd/`
+        return `${ path }${ HORNBILL }/cmd/`
     }
 
     active() {
@@ -79,11 +64,8 @@ class WorkSpace {
     start( autoExit = true ) {
         return new Promise( async( resolve ) => {
             let path, command
-
-            path      = await this.getCommandPath( this.basePath )
-            let isNew = await WorkSpace.isNew( this.basePath )
-
-            command = `cd ${path} && ./service${ isNew ? 3 : 2 }.sh restart`
+            path    = await this.getCommandPath( this.basePath )
+            command = `cd ${path} && ./service3.sh restart`
 
             log( command, 'debug' )
             Exec( command, err => err && log( err, 'error' ) )
@@ -105,10 +87,9 @@ class WorkSpace {
         return new Promise( async( resolve ) => {
             let path, isAll, command
 
-            isAll     = all == 'all' ? 'All' : ''
-            let isNew = await WorkSpace.isNew( this.basePath )
-            path      = await this.getCommandPath( this.basePath )
-            command   = `cd ${path} && ./service${ isNew ? 3 : 2 }.sh stop${isAll}`
+            isAll   = all == 'all' ? 'All' : ''
+            path    = await this.getCommandPath( this.basePath )
+            command = `cd ${path} && ./service3.sh stop${isAll}`
 
             log( command, 'debug' )
             Exec( command, err => err && log( err, 'error' ) )

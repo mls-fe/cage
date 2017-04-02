@@ -1,8 +1,7 @@
-let Key       = require( '../key' ),
-    Util      = require( '../util' ),
-    Const     = require( '../const' ),
-    WorkSpace = require( './workspace' ),
-    Profile   = global.Profile
+let Key     = require( '../key' ),
+    Util    = require( '../util' ),
+    Const   = require( '../const' ),
+    Profile = global.Profile
 
 const DOMAINS = Key.domains,
       RANDOM  = Key.random,
@@ -10,10 +9,6 @@ const DOMAINS = Key.domains,
 
 class Config {
     constructor( path ) {
-        WorkSpace.isNew( path ).then( isNew => {
-            this.isNew = isNew
-            isNew && Const.changeToNewPath( path )
-        } )
         this.param = { path }
     }
 
@@ -38,9 +33,8 @@ class Config {
     }
 
     async generatePort() {
-        let ip    = Profile.get( IP ),
-            path  = this.getPath(),
-            isNew = this.isNew,
+        let ip   = Profile.get( IP ),
+            path = this.getPath(),
             port, url
 
         if ( this.getPortOption() == RANDOM ) {
@@ -49,28 +43,13 @@ class Config {
 
             url = `http://${ip}:${port + 1}/`
 
-            if ( isNew ) {
-                await Util.updateRuntimeConfig( path, ( data ) => {
-                    data.site.JCSTATIC_BASE   = url + 'pc/'
-                    data.site.M_JCSTATIC_BASE = url + 'wap/'
-                    data.etc.onPort           = port
-                    data.service.onPort       = port + 1
-                    return data
-                } )
-            } else {
-                await Util.updateJSONFile( path + Const.FILE_SITE, {
-                    'JCSTATIC_BASE'  : url,
-                    'M_JCSTATIC_BASE': url
-                } )
-
-                await Util.updateJSONFile( path + Const.FILE_ETC, {
-                    onPort: port
-                } )
-
-                await Util.updateJSONFile( path + Const.FILE_SERVICE, {
-                    onPort: port + 1
-                } )
-            }
+            await Util.updateRuntimeConfig( path, ( data ) => {
+                data.site.JCSTATIC_BASE   = url + 'pc/'
+                data.site.M_JCSTATIC_BASE = url + 'wap/'
+                data.etc.onPort           = port
+                data.service.onPort       = port + 1
+                return data
+            } )
         }
     }
 
@@ -134,24 +113,10 @@ class Config {
     }
 
     async updateIP() {
-        let mac   = await Util.getMac(),
-            res   = await Util.updateMac( mac ),
-            isNew = this.isNew
+        let mac = await Util.getMac(),
+            res = await Util.updateMac( mac )
 
         if ( res ) {
-            let port = Util.getPort( this.getPath() ) + 1,
-                ip   = this.param.ip,
-                url  = `http://${ip}:${port}/`
-
-            if ( isNew ) {
-
-            } else {
-                await Util.updateJSONFile( this.getPath() + Const.FILE_SITE, {
-                    'JCSTATIC_BASE'  : isNew ? ( url + 'pc/' ) : url,
-                    'M_JCSTATIC_BASE': isNew ? ( url + 'wap/' ) : url
-                } )
-            }
-
             Profile.set( IP, this.param.ip )
             return true
         }
@@ -172,14 +137,10 @@ class Config {
 
         port = this.getPort() || Util.getPort( this.getPath() )
 
-        if ( this.isNew ) {
-            await Util.updateRuntimeConfig( this.getPath(), ( data ) => {
-                data.virtualHost = hosts
-                return data
-            } )
-        } else {
-            await Util.updateJSONFile( this.getPath() + Const.FILE_VHOST, hosts )
-        }
+        await Util.updateRuntimeConfig( this.getPath(), ( data ) => {
+            data.virtualHost = hosts
+            return data
+        } )
 
         await Util.updateProxy( port, hostParam.join( '&' ) )
     }

@@ -107,9 +107,9 @@ class ConfigCLI {
                 }
             } ] )
             .then( answer => {
-                let c           = this.config,
-                    domain      = answer.domain.trim(),
-                    domainArr   = domain.split( ' ' )
+                let c         = this.config,
+                    domain    = answer.domain.trim(),
+                    domainArr = domain.split( ' ' )
 
                 if ( domain == N ) {
                     if ( this._domains.length ) {
@@ -160,7 +160,6 @@ class ConfigCLI {
             await this.config.updateProxy()
         } catch ( e ) {
             log( '\r服务器挂了!', 'error' )
-            return
         } finally {
             Indicator.stop()
         }

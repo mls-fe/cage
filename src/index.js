@@ -134,9 +134,7 @@ Commander
     .command( 'ls' )
     .description( '显示工作空间列表' )
     .action( () => {
-        WorkSpaceCLI.list( () => {
-            update()
-        } )
+        WorkSpaceCLI.list( update )
     } )
 
 Commander

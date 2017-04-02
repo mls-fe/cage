@@ -1,4 +1,15 @@
 {
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": 4.4
+        },
+        "debug": false
+      }
+    ]
+  ],
   "plugins": [
     [
       "transform-async-to-module-method",
@@ -6,9 +17,6 @@
         "module": "bluebird",
         "method": "coroutine"
       }
-    ],
-    "transform-es2015-modules-commonjs",
-    "transform-es2015-parameters",
-    "transform-es2015-destructuring"
+    ]
   ]
 }
