@@ -113,7 +113,7 @@ module.exports = Util = {
         if ( res && res.code == '0' ) {
             return true
         }
-        log( '更新 IP 地址失败', 'error' )
+        log( '更新 Mac 地址失败', 'error' )
     },
 
     async updateProxy( port, params ) {

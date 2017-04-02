@@ -3,9 +3,10 @@ let Key     = require( '../key' ),
     Const   = require( '../const' ),
     Profile = global.Profile
 
-const DOMAINS = Key.domains,
-      RANDOM  = Key.random,
-      IP      = Key.ip
+const DOMAINS  = Key.domains,
+      RANDOM   = Key.random,
+      IP       = Key.ip,
+      LOCAL_IP = '127.0.0.1'
 
 class Config {
     constructor( path ) {
@@ -116,10 +117,8 @@ class Config {
         let mac = await Util.getMac(),
             res = await Util.updateMac( mac )
 
-        if ( res ) {
-            Profile.set( IP, this.param.ip )
-            return true
-        }
+        Profile.set( IP, res ? this.param.ip : LOCAL_IP )
+        return !!res
     }
 
     async updateProxy() {
