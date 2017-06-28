@@ -1,6 +1,6 @@
 {
   "name": "cage",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "whornbill environment utility.",
   "bin": "bin/index.js",
   "keywords": [
