@@ -25,6 +25,7 @@ whornbill 环境配置。
 
 ### 配置环境
 *该操作会更新 rc.json 文件*
+
     cage config <文件夹名>
     cage c <文件夹名>
 
@@ -77,3 +78,6 @@ whornbill 环境配置。
 
 ### 显示本机 Mac
     cage mac
+
+### 显示曾经配置过的域名
+    cage hostlist
