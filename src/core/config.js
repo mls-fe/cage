@@ -102,7 +102,7 @@ class Config {
     clearDomains() {
         let param = this.param
 
-        Profile.del( DOMAINS )
+        Profile.delete( DOMAINS )
         param.domainsObj = {}
         param.domains    = []
     }

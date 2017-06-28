@@ -1,5 +1,16 @@
 # Cage ChangeLog
 
+## 2017-06-28, Version 2.5.0
+
+## Improvement
+
+- add more thorough hints for host config.
+- only update workspace when it's changed.
+
+### Fix
+
+- fix `inquirer`'s outdated api.
+
 ## 2016-07-29, Version 2.3.2
 
 ## Improvement

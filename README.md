@@ -13,7 +13,7 @@ whornbill 环境配置。
 注意:
 
 - 如果安装出现问题, 那么先执行 `npm uninstall -g cage`, 再执行上面的命令
-- 如果提示权限不足, 请在命令前增加 `sudo`
+- 如果提示权限不足, 请参考 [Fixing npm permissions](https://docs.npmjs.com/getting-started/fixing-npm-permissions) 进行设置
 
 ## 命令
 *`<>`表示参数可以省略*
@@ -24,6 +24,7 @@ whornbill 环境配置。
     cage setup <文件夹名> <svn url>
 
 ### 配置环境
+*该操作会更新 rc.json 文件*
     cage config <文件夹名>
     cage c <文件夹名>
 

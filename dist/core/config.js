@@ -149,7 +149,7 @@ var Config = function () {
         value: function clearDomains() {
             var param = this.param;
 
-            Profile.del(DOMAINS);
+            Profile.delete(DOMAINS);
             param.domainsObj = {};
             param.domains = [];
         }

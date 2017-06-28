@@ -21,11 +21,19 @@ const RANDOM = Key.random,
       NO     = '否',
       N      = 'n',
       HINT   = `
-域名格式(例子):
+域名格式:
   xxx pc
-xxs 是你自定义的名字, 不要和其他人重复了
-pc 是业务名称, 目前可配置 pc、wap、www 等
+xxx 是你自定义的名字, 不要和其他人重复了
+pc 是业务名称, 目前可配置 pc 与 wap
 设置完毕后, 可以使用访问 http://xxx.fedevot.meilishuo.com
+
+举例：
+
+我希望 http://szdp.fedevot.meilishuo.com 来访问本地的 pc 服务，那么我应该输入：
+
+szdp pc
+
+如果已经设置完毕，或者不小心进入该步骤，可以输入字母 n 跳过。
 `
 
 class ConfigCLI {
@@ -87,7 +95,6 @@ class ConfigCLI {
                         c.clearDomains()
                         return this.configDomain( next )
                     }
-
                     next()
                 } )
         } else {

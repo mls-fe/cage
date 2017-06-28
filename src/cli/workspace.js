@@ -3,7 +3,8 @@ let Inquirer  = require( 'inquirer' ),
 
 module.exports = {
     list( callback ) {
-        let list = WorkSpace.list()
+        let list    = WorkSpace.list(),
+            current = WorkSpace.current()
 
         if ( list.length ) {
             Inquirer
@@ -12,9 +13,13 @@ module.exports = {
                     name   : 'workspace',
                     message: '工作空间列表',
                     choices: list,
-                    default: WorkSpace.current()
+                    default: current
                 } ] )
                 .then( ( answer ) => {
+                    if ( answer.workspace === current ) {
+                        return log( '工作空间没有变化，不需要更新。' )
+                    }
+                    
                     WorkSpace.setCurrentWorkSpace( answer.workspace )
                     log( '切换工作空间成功！' )
                     callback && callback()
